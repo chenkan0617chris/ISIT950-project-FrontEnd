@@ -1,3 +1,19 @@
+## Technology stacks
+
+- language
+  1. Typescript
+- framework
+  1. React.js
+- UI
+  1. MaterialUI
+- Router
+  1. React-Router
+- API
+  1. Axios
+- CI/CD
+  1. Github automatic integration
+     
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
