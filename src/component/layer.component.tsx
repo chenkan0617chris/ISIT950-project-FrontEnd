@@ -17,7 +17,7 @@ export default function Layer({ children } : LayoutProps) {
     }, [])
 
     return (
-        <Box sx={{ position: 'absolute', height: '100%', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <Box sx={{ position: 'absolute', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
             {children}
         </Box>
     )
