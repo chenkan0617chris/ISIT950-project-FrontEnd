@@ -1,15 +1,31 @@
 import { useEffect } from "react";
 import { login } from "../service/login";
-import { Box, Button, Stack, Typography } from "@mui/material";
+import { Box, Button, FormControl, OutlinedInput, Stack, Typography, makeStyles } from "@mui/material";
 import homeImg from '../images/home_new.jpeg';
 import home_pic1 from '../images/home_pic1.jpeg';
 import home_pic2 from '../images/home_pic2.jpeg';
 import home_btm from '../images/home_btm.jpeg';
+import { useForm } from "react-hook-form";
+import { ORANGE } from "../utils/constant";
+import Title from "../component/title.component";
+import BeMember from "../component/beMember.component";
+
+interface Inputs {
+    distance?: number;
+    name?: string;
+};
 
 const Home = () => {
+
+    const { register, handleSubmit } = useForm<Inputs>();
+
     
     useEffect(() => {
     }, []);
+
+    const onSubmit = () => {
+
+    };
 
     return (
         <>
@@ -22,12 +38,46 @@ const Home = () => {
                 sx={{ background: `url(${homeImg})`, backgroundSize: 'cover'}}
             >
                 <Stack spacing={4}>
-                    <Typography fontSize={100} color='#F00' fontFamily='Lily Script One' >Click N Crave</Typography>
+                    <Title></Title>
                     <Typography fontSize={40} color='white' fontFamily='Poppins'>Satisfy Your 
                         <Typography component="span" fontSize={40} color="#F00"> Craving</Typography> with a  
                         <Typography component="span" fontSize={40} color="#F00"> Click</Typography>
                     </Typography>
+                    <Box component='form' onSubmit={handleSubmit(onSubmit)}>
+                        <Stack spacing={2} sx={{ alignItems: 'center' }}>
+                            <FormControl sx={{ m: 1 }} variant="outlined">
+                                <OutlinedInput
+                                    required
+                                    id="outlined-adornment-name"
+                                    type='text'
+                                    placeholder="Search by name, category"
+                                    sx={{ 
+                                        background: '#9A1616',
+                                        minWidth: '400px',
+                                        color: '#FFFFFF',
 
+                                    }}
+                                    {...register('name')}
+                                />
+                            </FormControl>
+                            <FormControl sx={{ m: 1 }} variant="outlined">
+                                <OutlinedInput
+                                    required
+                                    id="outlined-adornment-distance"
+                                    type='text'
+                                    placeholder="Search by km, min"
+                                    sx={{ 
+                                        background: '#9A1616',
+                                        color: '#FFFFFF',
+                                        minWidth: '400px' 
+                                    }}
+                                    {...register('distance')}
+                                />
+                            </FormControl>
+                            <Button sx={{ background: '#F88500', width: 200 }} type='submit' variant="contained">Search</Button>
+                        </Stack>
+                        
+                    </Box>
                 </Stack>
 
             </Box>
@@ -52,7 +102,7 @@ const Home = () => {
                             Experience convenience, variety, and exceptional flavors all in one place. Join ClickNCrave today and let your cravings lead the way!
                         </Typography>
                         <Stack spacing={2}>
-                            <Button  variant="contained">Today’s Menu</Button>
+                            <Button  variant="contained" sx={{ background: ORANGE }}>Today’s Menu</Button>
                         </Stack>
                     </Stack>
                     <Stack flexDirection='row'>
@@ -66,7 +116,7 @@ const Home = () => {
             </Box>
             <Box
                 display='flex' 
-                justifyContent='center' 
+                justifyContent='space-around' 
                 alignItems='center' 
                 width='100%' 
                 height='100vh'
@@ -74,7 +124,7 @@ const Home = () => {
             >
                 <Stack spacing={4}>
                     <Stack spacing={2}>
-                        <Typography fontSize={60} color='white' fontFamily='Lily Script One' >Click N Crave</Typography>
+                        <Title size={60} color='white'></Title>
                     </Stack>
                     <Stack spacing={2}>
                         <Typography fontSize={32} color='#9A1616' fontFamily='Poppins' >5th years Anniversary </Typography>
@@ -87,9 +137,7 @@ const Home = () => {
 
                             Please be a part of this delicious fulfillment by joining our membership.
                         </Typography>
-                        <Box width={272} height={62} sx={{ background: 'white', borderRadius: '16px', textAlign: 'center' }}>
-                            <Typography fontSize={36} color='#9A1616' fontWeight={700}>Be a member</Typography>
-                        </Box>
+                        <BeMember></BeMember>
                     </Stack>
 
 
@@ -111,3 +159,4 @@ const Home = () => {
 };
 
 export default Home;
+
