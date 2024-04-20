@@ -3,12 +3,15 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import { RouterProvider } from 'react-router-dom';
 import router from './router';
+import Layer from './component/layer.component';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as any);
 
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router}></RouterProvider>
+    <Layer>
+      <RouterProvider router={router}></RouterProvider>
+    </Layer>
   </React.StrictMode>
 );
 
