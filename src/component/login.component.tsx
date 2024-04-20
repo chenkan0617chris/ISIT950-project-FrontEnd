@@ -4,13 +4,23 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import { SubmitHandler, useForm } from "react-hook-form";
+import { login } from "../service/login";
+import { mySnackbar } from "../pages/login.page";
+
 
 type Inputs = {
     email: string
     password: string
   }
 
-export default function LoginForm(): ReactElement {
+interface LoginFormProps {
+    setOpen: (flag: boolean) => void,
+    setSnack: (args: mySnackbar) => void
+}
+
+export default function LoginForm(props: LoginFormProps): ReactElement {
+
+    const { setOpen, setSnack } = props;
 
     const { register, handleSubmit } = useForm<Inputs>();
 
@@ -23,13 +33,38 @@ export default function LoginForm(): ReactElement {
     };
 
     const onSubmit: SubmitHandler<Inputs> = (data) => {
-        console.log(data);
+              
+        login(data).then((res: any) => {
+            const userInfo = res.userInfo;
+
+            console.log(userInfo);
+    
+            localStorage.setItem('userInfo', JSON.stringify(userInfo));
+
+            setOpen(true);
+
+            setSnack({
+                severity: 'success',
+                message: 'Log in successfully!',
+            });
+
+            setTimeout(() => {
+                window.location.href = '/';
+            }, 2000);
+    
+        }).catch((error: any) => {
+            setSnack({
+                severity: 'error',
+                message: error.message
+            });
+            setOpen(true);
+        });
     };
 
     return (
-    <Stack spacing={4} sx={{ maxWidth: 400 }}>
+    <Stack spacing={4} sx={{ borderRadius: '30px', background: 'rgba(0, 0, 0, 0.30)', backdropFilter: 'blur(25px)', padding: '80px' }}>
         <Stack spacing={1}>
-            <Typography variant="h4">Sign In</Typography>
+            <Typography variant="h4">Hi, Welcome Back</Typography>
             <Typography variant="body2">Don't have an account?</Typography>
             <Box component='form' onSubmit={handleSubmit(onSubmit)}>
                 <Stack spacing={2}>
