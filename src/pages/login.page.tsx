@@ -29,7 +29,7 @@ export function Login(): ReactElement {
             backgroundPosition: '50%',
             backgroundSize: 'cover',
             opacity: 0.8,
-            height: '100%', 
+            height: '100vh', 
             width: '100%', 
             display: 'flex', 
             alignItems: 'center', 

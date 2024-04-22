@@ -3,6 +3,7 @@ import Order from "./pages/order.page";
 import Home from "./pages/home.page";
 import ErrorPage from "./pages/error.page";
 import { Login } from "./pages/login.page";
+import SearchResult from "./pages/searchResult.page";
 
 const router = createBrowserRouter([
     {
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
     {
       path: 'auth/login',
       element: <Login></Login>
+    },
+    {
+      path: 'search',
+      element: <SearchResult></SearchResult>
     }
     
   ]);
