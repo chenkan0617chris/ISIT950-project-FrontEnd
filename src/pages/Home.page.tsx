@@ -1,30 +1,22 @@
 import { useEffect } from "react";
-import { login } from "../service/login";
-import { Box, Button, FormControl, OutlinedInput, Stack, Typography, makeStyles } from "@mui/material";
+import { Box, Button, Stack, Typography } from "@mui/material";
 import homeImg from '../images/home_new.jpeg';
 import home_pic1 from '../images/home_pic1.jpeg';
 import home_pic2 from '../images/home_pic2.jpeg';
 import home_btm from '../images/home_btm.jpeg';
-import { useForm } from "react-hook-form";
 import { ORANGE } from "../utils/constant";
 import Title from "../component/title.component";
 import BeMember from "../component/beMember.component";
-
-interface Inputs {
-    distance?: number;
-    name?: string;
-};
+import Subtitle from "../component/subtitle.component";
+import SearchForm from "../component/searchForm.component";
 
 const Home = () => {
-
-    const { register, handleSubmit } = useForm<Inputs>();
-
     
     useEffect(() => {
     }, []);
 
     const onSubmit = () => {
-
+        window.location.href = '/search';
     };
 
     return (
@@ -39,45 +31,10 @@ const Home = () => {
             >
                 <Stack spacing={4}>
                     <Title></Title>
-                    <Typography fontSize={40} color='white' fontFamily='Poppins'>Satisfy Your 
-                        <Typography component="span" fontSize={40} color="#F00"> Craving</Typography> with a  
-                        <Typography component="span" fontSize={40} color="#F00"> Click</Typography>
-                    </Typography>
-                    <Box component='form' onSubmit={handleSubmit(onSubmit)}>
-                        <Stack spacing={2} sx={{ alignItems: 'center' }}>
-                            <FormControl sx={{ m: 1 }} variant="outlined">
-                                <OutlinedInput
-                                    required
-                                    id="outlined-adornment-name"
-                                    type='text'
-                                    placeholder="Search by name, category"
-                                    sx={{ 
-                                        background: '#9A1616',
-                                        minWidth: '400px',
-                                        color: '#FFFFFF',
-
-                                    }}
-                                    {...register('name')}
-                                />
-                            </FormControl>
-                            <FormControl sx={{ m: 1 }} variant="outlined">
-                                <OutlinedInput
-                                    required
-                                    id="outlined-adornment-distance"
-                                    type='text'
-                                    placeholder="Search by km, min"
-                                    sx={{ 
-                                        background: '#9A1616',
-                                        color: '#FFFFFF',
-                                        minWidth: '400px' 
-                                    }}
-                                    {...register('distance')}
-                                />
-                            </FormControl>
-                            <Button sx={{ background: '#F88500', width: 200 }} type='submit' variant="contained">Search</Button>
-                        </Stack>
-                        
-                    </Box>
+                    <Subtitle></Subtitle>
+                    <SearchForm
+                        onSubmit={onSubmit}
+                    />
                 </Stack>
 
             </Box>

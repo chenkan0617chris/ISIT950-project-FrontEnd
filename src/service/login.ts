@@ -23,8 +23,7 @@ export const login = (form: LoginInputs) => {
             resolve(response.data);
         }).catch(err => {
             console.log(err);
-
-            reject(err.response.data)
+            reject(err)
         });
     })
 };
