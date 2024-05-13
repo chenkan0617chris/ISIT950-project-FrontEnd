@@ -1,10 +1,11 @@
-import { Box, Grid, Paper, Stack, Typography, styled } from "@mui/material";
+import { Box, Grid, Stack, Typography } from "@mui/material";
 import Title from "../component/title.component";
 import Subtitle from "../component/subtitle.component";
 import SearchForm from "../component/searchForm.component";
 import RestaurantCard, { Restaurant } from "../component/restaurantCard.component";
 import { WHITE } from "../utils/constant";
 import search_bg from '../images/search_bg.jpeg';
+import TitleAndSearch from "../component/TitleAndSearch.component";
 
 const fakeData = [
     {
@@ -54,26 +55,16 @@ const fakeData = [
 const SearchResult = () => {
 
     const handleClick = () => {
-
+        window.location.href = '/restaurant';
     };
 
-    const onSubmit = () => {
+    const handleSubmit = () => {
 
     };
 
     return (
         <Box sx={{ width: '100%',  background: `url(${search_bg})`, backgroundSize: 'cover'}}>
-            <Stack spacing={4} p={6} direction={"row"} justifyContent='space-between'>
-                <Stack spacing={2}>
-                    <Title></Title>
-                    <Subtitle></Subtitle>
-                </Stack>
-                <Stack spacing={2} p={3} mt={4}>
-                    <SearchForm
-                        onSubmit={onSubmit}
-                    />
-                </Stack>
-            </Stack>
+            <TitleAndSearch />
             <Stack spacing={4} p={6}>
                 <Stack spacing={2}>
                     <Typography color={WHITE}>Search results for “ Rice Bowls”</Typography>
@@ -81,13 +72,12 @@ const SearchResult = () => {
                 <Grid container spacing={4}>
                     {fakeData.map((restaurant: Restaurant, index) => {
                         return (
-                            <Grid item  key={index}>
+                            <Grid item key={index}>
                                 <RestaurantCard
                                     restaurant={restaurant}
                                     handleClick={handleClick}
                                 />
                             </Grid>
-                                
                         )
                     })}
                 </Grid>
