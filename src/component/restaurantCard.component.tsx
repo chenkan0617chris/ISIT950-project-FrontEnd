@@ -37,7 +37,7 @@ const RestaurantCard = (props: RestaurantCardProps) => {
                 
             </CardContent>
             <CardActions>
-                <Button onClick={handleClick}><ArrowForwardIosIcon></ArrowForwardIosIcon></Button>
+                <Button startIcon={<ArrowForwardIosIcon></ArrowForwardIosIcon>} onClick={() => handleClick()}></Button>
             </CardActions>
         </Card>
     )

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { getUser } from "../service/login";
+import { getUser } from "../service/api";
 
 const Order = () => {
 
