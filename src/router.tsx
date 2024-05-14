@@ -4,6 +4,9 @@ import Home from "./pages/Home.page";
 import ErrorPage from "./pages/Error.page";
 import { Login } from "./pages/login.page";
 import SearchResult from "./pages/searchResult.page";
+import RestaurantPage from "./pages/restaurant.page";
+import CartPage from "./pages/cart.page";
+import Register from "./pages/register.page";
 
 const router = createBrowserRouter([
     {
@@ -11,19 +14,30 @@ const router = createBrowserRouter([
       element: <Home></Home>,
       errorElement: <ErrorPage />,
     },
+    // {
+    //   path: '/order',
+    //   element: <Order></Order>
+    // },
     {
-      path: '/order',
-      element: <Order></Order>
-    },
-    {
-      path: 'auth/login',
+      path: '/auth/login',
       element: <Login></Login>
     },
     {
-      path: 'search',
+      path: '/auth/register',
+      element: <Register></Register>
+    },
+    {
+      path: '/search',
       element: <SearchResult></SearchResult>
-    }
-    
+    },
+    {
+      path: '/restaurant',
+      element: <RestaurantPage></RestaurantPage>
+    },
+    {
+      path: '/cart',
+      element: <CartPage></CartPage>
+    },
   ]);
 
 

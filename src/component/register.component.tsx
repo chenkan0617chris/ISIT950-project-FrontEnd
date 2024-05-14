@@ -4,7 +4,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import { SubmitHandler, useForm } from "react-hook-form";
-import { login } from "../service/api";
+import { login, registerApi } from "../service/api";
 import { mySnackbar } from "../pages/login.page";
 import { Password } from "@mui/icons-material";
 
@@ -13,15 +13,17 @@ var md5 = require('md5');
 type Inputs = {
     username: string;
     password: string;
+    phone: string;
+    email: string;
     type: string;
   }
 
-interface LoginFormProps {
+interface RegisterFormProps {
     setOpen: (flag: boolean) => void,
     setSnack: (args: mySnackbar) => void
 }
 
-export default function LoginForm(props: LoginFormProps): ReactElement {
+export default function RegisterForm(props: RegisterFormProps): ReactElement {
 
     const { setOpen, setSnack } = props;
 
@@ -42,22 +44,15 @@ export default function LoginForm(props: LoginFormProps): ReactElement {
             password: md5(data.password) 
          }
               
-        login(newData).then((res: any) => {
-            const userInfo = res.userInfo[0];
-
-            console.log(userInfo);
-    
-            localStorage.setItem('userInfo', JSON.stringify(userInfo));
-
+         registerApi(newData).then((res: any) => {
             setOpen(true);
-
             setSnack({
                 severity: 'success',
-                message: 'Log in successfully!',
+                message: 'Register successfully!',
             });
 
             setTimeout(() => {
-                window.location.href = '/';
+                window.location.href = '/auth/login';
             }, 2000);
     
         }).catch((error: any) => {
@@ -72,8 +67,7 @@ export default function LoginForm(props: LoginFormProps): ReactElement {
     return (
     <Stack spacing={4} sx={{ borderRadius: '30px', background: 'rgba(0, 0, 0, 0.30)', backdropFilter: 'blur(25px)', padding: '80px' }}>
         <Stack spacing={1}>
-            <Typography variant="h4" textAlign='center'>Login</Typography>
-            <Typography variant="body2">Don't have an account? <Link href="/auth/register" color="secondary">Register Now!</Link></Typography>
+            <Typography variant="h4" textAlign='center'>Register</Typography>
             <Box component='form' onSubmit={handleSubmit(onSubmit)}>
                 <Stack spacing={2}>
                     <FormControl sx={{ m: 1 }} variant="outlined">
@@ -109,6 +103,26 @@ export default function LoginForm(props: LoginFormProps): ReactElement {
                         />
                     </FormControl>
                     <FormControl sx={{ m: 1 }} variant="outlined">
+                        <InputLabel htmlFor="outlined-adornment-phone">phone</InputLabel>
+                        <OutlinedInput
+                            required
+                            id="outlined-adornment-phone"
+                            type='text'
+                            label="phone"
+                            {...register('phone')}
+                        />
+                    </FormControl>
+                    <FormControl sx={{ m: 1 }} variant="outlined">
+                        <InputLabel htmlFor="outlined-adornment-Email">Email</InputLabel>
+                        <OutlinedInput
+                            required
+                            id="outlined-adornment-Email"
+                            type='text'
+                            label="Email"
+                            {...register('email')}
+                        />
+                    </FormControl>
+                    <FormControl sx={{ m: 1 }} variant="outlined">
                         <InputLabel id="demo-simple-select-label">Type</InputLabel>
                         <Select
                             labelId="demo-simple-select-label"
@@ -121,6 +135,7 @@ export default function LoginForm(props: LoginFormProps): ReactElement {
                             <MenuItem value='deliveryPerson'>delivery</MenuItem>
                         </Select>
                     </FormControl>
+                    <Link href="/auth/login" variant="subtitle2" sx={{ color: 'black'}}>Login now?</Link>
                     <Button type='submit' variant="contained">Sign In</Button>
                 </Stack>
             </Box>
