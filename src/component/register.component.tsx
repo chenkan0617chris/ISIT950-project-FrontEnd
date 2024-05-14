@@ -13,9 +13,12 @@ var md5 = require('md5');
 type Inputs = {
     username: string;
     password: string;
-    phone: string;
-    email: string;
+    phone?: string;
+    email?: string;
     type: string;
+    address: string;
+    postcode: string;
+    title?: string;
   }
 
 interface RegisterFormProps {
@@ -29,6 +32,8 @@ export default function RegisterForm(props: RegisterFormProps): ReactElement {
 
     const { register, handleSubmit } = useForm<Inputs>();
 
+    const [type, setType] = useState();
+
     const [showPassword, setShowPassword] = useState(false);
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -36,6 +41,10 @@ export default function RegisterForm(props: RegisterFormProps): ReactElement {
     const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
     };
+
+    const handleChange = (event: any) => {
+        setType(event.target.value);
+    }
 
     const onSubmit: SubmitHandler<Inputs> = (data) => {
 
@@ -102,7 +111,17 @@ export default function RegisterForm(props: RegisterFormProps): ReactElement {
                             label="Password"
                         />
                     </FormControl>
-                    <FormControl sx={{ m: 1 }} variant="outlined">
+                    {type === "restaurants" && <FormControl sx={{ m: 1 }} variant="outlined">
+                        <InputLabel htmlFor="outlined-adornment-Title">Restaurant Title</InputLabel>
+                        <OutlinedInput
+                            required
+                            id="outlined-adornment-Title"
+                            type='text'
+                            label="Title"
+                            {...register('title')}
+                        />
+                    </FormControl>}
+                    {/* <FormControl sx={{ m: 1 }} variant="outlined">
                         <InputLabel htmlFor="outlined-adornment-phone">phone</InputLabel>
                         <OutlinedInput
                             required
@@ -121,14 +140,37 @@ export default function RegisterForm(props: RegisterFormProps): ReactElement {
                             label="Email"
                             {...register('email')}
                         />
+                    </FormControl> */}
+                    <FormControl sx={{ m: 1 }} variant="outlined">
+                        <InputLabel htmlFor="outlined-adornment-Address">Address</InputLabel>
+                        <OutlinedInput
+                            required
+                            id="outlined-adornment-Address"
+                            type='text'
+                            label="Address"
+                            {...register('address')}
+                        />
+                    </FormControl>
+                    <FormControl sx={{ m: 1 }} variant="outlined">
+                        <InputLabel htmlFor="outlined-adornment-Postcode">Postcode</InputLabel>
+                        <OutlinedInput
+                            required
+                            id="outlined-adornment-Postcode"
+                            type='text'
+                            label="Postcode"
+                            {...register('postcode')}
+                        />
                     </FormControl>
                     <FormControl sx={{ m: 1 }} variant="outlined">
                         <InputLabel id="demo-simple-select-label">Type</InputLabel>
                         <Select
+                            required
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
                             {...register('type')}
                             label="Type"
+                            onChange={handleChange}
+                            value={type}
                         >
                             <MenuItem value='customers'>customer</MenuItem>
                             <MenuItem value='restaurants'>restaurant</MenuItem>

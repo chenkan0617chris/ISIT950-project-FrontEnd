@@ -5,8 +5,8 @@ export interface Restaurant {
     title: string;
     description?: string;
     image: string;
-    price?: number;
-    distance: number;
+    price: number;
+    postcode: number;
 }
 
 interface RestaurantCardProps {
@@ -18,11 +18,15 @@ const RestaurantCard = (props: RestaurantCardProps) => {
 
     const { handleClick, restaurant } = props;
 
-    const { title, description, image, price, distance } = restaurant;
+    const { title, description, image, price, postcode } = restaurant;
+
+    const distance = postcode - Number(JSON.parse(sessionStorage.getItem('userInfo') as any)['postcode']);
+
+    const img_url = image || '/images/res_default.png';
 
     return (
         <Card sx={{ maxWidth: 500, padding: '25px', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-            <CardMedia image={image} sx={{ height: '128px', width: '128px' }}>
+            <CardMedia image={img_url} sx={{ height: '128px', width: '128px' }}>
 
             </CardMedia>
             <CardContent>
@@ -31,7 +35,7 @@ const RestaurantCard = (props: RestaurantCardProps) => {
                     <Typography variant="subtitle1">{description}</Typography>
                 </Stack>
                 <Stack direction={'row'} justifyContent={'space-between'}>
-                    <Typography>${price}</Typography>
+                    <Typography>${price || 20}</Typography>
                     <Typography>{distance}min</Typography>
                 </Stack>
                 

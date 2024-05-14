@@ -1,13 +1,17 @@
 import { Stack } from "@mui/material";
-import SearchForm from "./searchForm.component";
+import SearchForm, { searchInputs } from "./searchForm.component";
 import Subtitle from "./subtitle.component";
 import Title from "./title.component";
+import { search } from "../service/api";
+import { useSearchParams } from "react-router-dom";
 
-const TitleAndSearch = () => {
+interface TitleAndSearchProps {
+    onSubmit: (value: searchInputs) => void;
+}
 
-    const onSubmit = () => {
+const TitleAndSearch = (props: TitleAndSearchProps) => {
 
-    };
+    const { onSubmit } = props;
 
     return (
         <Stack spacing={4} p={6} direction={"row"} justifyContent='space-between'>

@@ -43,11 +43,9 @@ export default function LoginForm(props: LoginFormProps): ReactElement {
          }
               
         login(newData).then((res: any) => {
-            const userInfo = res.userInfo[0];
-
-            console.log(userInfo);
+            const userInfo = res;
     
-            localStorage.setItem('userInfo', JSON.stringify(userInfo));
+            sessionStorage.setItem('userInfo', JSON.stringify(userInfo));
 
             setOpen(true);
 

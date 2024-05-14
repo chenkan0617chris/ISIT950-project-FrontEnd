@@ -15,8 +15,16 @@ const Home = () => {
     useEffect(() => {
     }, []);
 
-    const onSubmit = () => {
-        window.location.href = '/search';
+    const onSubmit = (value: any) => {
+
+        const userInfo: any = JSON.parse(sessionStorage.getItem("userInfo") as any);
+
+        if (!userInfo) {
+            window.location.href = '/auth/login';
+            return;
+        };
+
+        window.location.href = `/search?name=${value.name}&distance=${value.distance}`;
     };
 
     return (

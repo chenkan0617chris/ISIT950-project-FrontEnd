@@ -2,8 +2,14 @@ import { AppBar, Box, Button, Container, Toolbar } from "@mui/material";
 import { RED } from "../utils/constant";
 
 const MyAppBar = () => {
-    const appBar = ['Home', 'Search', 'History', 'Cart', 'Membership', 'login']
+    let appBar;
     // const appBar = ['Tracking', 'Menu', 'History', 'Cart', 'Membership', 'Home', 'About', 'Contact', 'login'];
+
+    if(sessionStorage.getItem('userInfo')){
+        appBar = ['Home', 'Search', 'History', 'Cart', 'Membership', 'logout'];
+    } else {
+        appBar = ['Home', 'Search', 'History', 'Cart', 'Membership', 'login'];
+    }
 
     const handleAppBarClick = (page: string) => {
         switch (page) {
@@ -11,6 +17,10 @@ const MyAppBar = () => {
                 window.location.href = '/';
                 return;
             case 'login':
+                window.location.href = '/auth/login';
+                return;
+            case 'logout':
+                sessionStorage.clear();
                 window.location.href = '/auth/login';
                 return;
             case 'Search':
