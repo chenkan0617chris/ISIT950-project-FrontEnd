@@ -105,10 +105,10 @@ const RestaurantPage = () => {
     const renderMenus = () => {
         console.log(menus);
         if(menus && menus.length > 0) {
-            return menus?.map(menu => {
+            return menus?.map((menu: any, key: number) => {
                 const img_url = menu?.image || '/images/dish1.png';
                 return (
-                    <Stack spacing={2} direction='row' p={2} sx={{ justifyContent: 'space-between', width: '100%' }}>
+                    <Stack key={key} spacing={2} direction='row' p={2} sx={{ justifyContent: 'space-between', width: '100%' }}>
                         <Stack sx={{ color: WHITE }}>
                             <Typography variant="h4">{menu.name}</Typography>
                             <Typography mt={2} variant="body2">${menu.price}</Typography>

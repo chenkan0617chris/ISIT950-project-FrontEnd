@@ -12,6 +12,10 @@ const MyAppBar = () => {
     }
 
     const handleAppBarClick = (page: string) => {
+        if(!sessionStorage.getItem('userInfo')) {
+            window.location.href = '/auth/login';
+            return;
+        }
         switch (page) {
             case 'Home':
                 window.location.href = '/';
@@ -28,6 +32,9 @@ const MyAppBar = () => {
                 return;
             case 'Cart':
                 window.location.href = '/cart';
+                return;
+            case 'History':
+                window.location.href = '/history';
                 return;
             default:
                 return;

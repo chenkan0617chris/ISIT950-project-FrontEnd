@@ -113,6 +113,7 @@ export default function LoginForm(props: LoginFormProps): ReactElement {
                             id="demo-simple-select"
                             {...register('type')}
                             label="Type"
+                            defaultValue='customers'
                         >
                             <MenuItem value='customers'>customer</MenuItem>
                             <MenuItem value='restaurants'>restaurant</MenuItem>

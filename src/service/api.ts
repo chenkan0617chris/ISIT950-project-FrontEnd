@@ -101,6 +101,36 @@ export const getMenus = (title: string) => {
     })
 };
 
+export const order = (data: any) => {
+    return new Promise<any>((resolve, reject) => {
+        axios.post('/order', {
+            data
+        })
+        .then((response: any) => {
+            console.log(response);
+            resolve(response.data);
+        }).catch(err => {
+            console.log(err);
+            reject(err.response.data)
+        });
+    })
+};
+
+export const getHistory = (data: any) => {
+    return new Promise<any>((resolve, reject) => {
+        axios.post('/history', {
+            data
+        })
+        .then((response: any) => {
+            console.log(response);
+            resolve(response.data);
+        }).catch(err => {
+            console.log(err);
+            reject(err.response.data)
+        });
+    })
+};
+
 export const getUser = () => {
     axios.get('/user')
     .then(response => {

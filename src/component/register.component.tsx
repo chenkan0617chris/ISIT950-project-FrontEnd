@@ -171,6 +171,7 @@ export default function RegisterForm(props: RegisterFormProps): ReactElement {
                             label="Type"
                             onChange={handleChange}
                             value={type}
+                            defaultValue='customers'
                         >
                             <MenuItem value='customers'>customer</MenuItem>
                             <MenuItem value='restaurants'>restaurant</MenuItem>

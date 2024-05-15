@@ -1,13 +1,15 @@
-import { Box, Button, Container, Divider, FormControl, FormControlLabel, FormLabel, Paper, Radio, RadioGroup, Stack, Typography } from "@mui/material";
+import { Alert, Box, Button, Container, Divider, FormControl, FormControlLabel, FormLabel, Paper, Radio, RadioGroup, Snackbar, Stack, Typography } from "@mui/material";
 import TitleAndSearch from "../component/TitleAndSearch.component";
 import { ORANGE, WHITE } from "../utils/constant";
 import { searchInputs } from "../component/searchForm.component";
 import { useEffect, useState } from "react";
 import isEmpty from "lodash/isEmpty";
+import { order } from "../service/api";
+import { mySnackbar } from "./login.page";
 
 const CartPage = () => {
 
-    const [cart, setCart] = useState(JSON.parse(sessionStorage.getItem("cart") as any) || {});
+    const [cart, setCart] = useState<any>();
 
     const [itemsCount, setItemsCount] = useState(JSON.parse(sessionStorage.getItem("itemsCount") as any) || 0);
 
@@ -23,9 +25,11 @@ const CartPage = () => {
 
     const [discount, setDiscount] = useState(0);
 
-    const onSubmit = (value: searchInputs) => {
+    useEffect(() => {
 
-        const userInfo: any = JSON.parse(sessionStorage.getItem("userInfo") as any);
+    }, []);
+
+    const onSubmit = (value: searchInputs) => {
 
         if (!userInfo) {
             window.location.href = '/auth/login';
@@ -75,6 +79,7 @@ const CartPage = () => {
 
     useEffect(() => {
         let newTotal = 0;
+        if(isEmpty(cart)) return;
         Object.values(cart).forEach((item: any) => {
             newTotal += item.count * item.price;
         })
@@ -163,10 +168,57 @@ const CartPage = () => {
         }
     };
 
+    const submitOrder = () => {
+        if(!isEmpty(cart)){
+            let data = {
+                cid: userInfo.cid,
+                items: Object.values(cart),
+                total
+            }
+
+            order(data).then((res: any) => {
+                setSnack({
+                    severity: 'success',
+                    message: 'Ordered successfully!',
+                })
+                setOpen(true);
+
+                setTimeout(() => {
+                    sessionStorage.removeItem('cart');
+                    sessionStorage.removeItem('itemsCount');
+                    window.location.href = '/history';
+                }, 2000);
+
+
+            })
+        }
+    };
+
+    const [open, setOpen] = useState(false);
+
+    const [snack, setSnack] = useState<mySnackbar>({
+        severity: 'success',
+        message: '',
+    });
+
+    const handleClose = () => {
+        setOpen(false);
+    }
 
 
     return (
         <Box sx={{ width: '100%',  background: `url(./images/cart_bg.png)`, backgroundSize: 'cover', display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
+            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                <Alert
+                    onClose={handleClose}
+                    severity={snack.severity}
+                    variant="filled"
+                    sx={{ width: '100%' }}
+                >
+                    
+                    {snack.message}
+                </Alert>
+            </Snackbar>
             <TitleAndSearch
                 onSubmit={onSubmit}
             />
@@ -227,7 +279,7 @@ const CartPage = () => {
                             <Typography variant='h5'>Total</Typography>
                             <Typography variant='h5'>${total.toFixed(2)}</Typography>
                         </Stack>
-                        <Button sx={{ mt: 2 }} fullWidth variant="contained">Proceed To Payment</Button>
+                        <Button onClick={() => {submitOrder()}} sx={{ mt: 2 }} fullWidth variant="contained">Proceed To Payment</Button>
                     </>}
                 </Box>
             </Box>

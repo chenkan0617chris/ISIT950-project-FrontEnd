@@ -7,6 +7,7 @@ import SearchResult from "./pages/searchResult.page";
 import RestaurantPage from "./pages/restaurant.page";
 import CartPage from "./pages/cart.page";
 import Register from "./pages/register.page";
+import History from './pages/history.page';
 
 const router = createBrowserRouter([
     {
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
     {
       path: '/cart',
       element: <CartPage></CartPage>
+    },
+    {
+      path: '/history',
+      element: <History></History>
     },
   ]);
 
