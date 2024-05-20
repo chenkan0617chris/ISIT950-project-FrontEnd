@@ -1,19 +1,21 @@
 import { Box, Button, FormControl, OutlinedInput, Stack } from "@mui/material";
 import { useForm } from "react-hook-form";
+import { useSearchParams } from "react-router-dom";
+import { Restaurant } from "./restaurantCard.component";
+import { search } from "../service/api";
 
-interface Inputs {
+export interface searchInputs {
     distance?: number;
     name?: string;
-    
 };
 
 interface SearchFormProps {
-    onSubmit: (value: Inputs) => void;
+    onSubmit: (value: searchInputs) => void;
 }
 
 const SearchForm = (props: SearchFormProps) => {
 
-    const { register, handleSubmit } = useForm<Inputs>();
+    const { register, handleSubmit } = useForm<searchInputs>();
 
     const { onSubmit } = props;
 
@@ -22,7 +24,6 @@ const SearchForm = (props: SearchFormProps) => {
             <Stack spacing={2} sx={{ alignItems: 'center' }}>
                 <FormControl sx={{ m: 1 }} variant="outlined">
                     <OutlinedInput
-                        required
                         id="outlined-adornment-name"
                         type='text'
                         placeholder="Search by name, category"
@@ -37,9 +38,8 @@ const SearchForm = (props: SearchFormProps) => {
                 </FormControl>
                 <FormControl sx={{ m: 1 }} variant="outlined">
                     <OutlinedInput
-                        required
                         id="outlined-adornment-distance"
-                        type='text'
+                        type='number'
                         placeholder="Search by km, min"
                         sx={{ 
                             background: '#9A1616',

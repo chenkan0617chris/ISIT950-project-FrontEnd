@@ -13,9 +13,13 @@ var md5 = require('md5');
 type Inputs = {
     username: string;
     password: string;
-    phone: string;
-    email: string;
+    phone?: string;
+    email?: string;
     type: string;
+    address: string;
+    postcode: string;
+    title?: string;
+    name?: string;
   }
 
 interface RegisterFormProps {
@@ -29,6 +33,8 @@ export default function RegisterForm(props: RegisterFormProps): ReactElement {
 
     const { register, handleSubmit } = useForm<Inputs>();
 
+    const [type, setType] = useState();
+
     const [showPassword, setShowPassword] = useState(false);
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -36,6 +42,10 @@ export default function RegisterForm(props: RegisterFormProps): ReactElement {
     const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
     };
+
+    const handleChange = (event: any) => {
+        setType(event.target.value);
+    }
 
     const onSubmit: SubmitHandler<Inputs> = (data) => {
 
@@ -102,33 +112,67 @@ export default function RegisterForm(props: RegisterFormProps): ReactElement {
                             label="Password"
                         />
                     </FormControl>
-                    <FormControl sx={{ m: 1 }} variant="outlined">
-                        <InputLabel htmlFor="outlined-adornment-phone">phone</InputLabel>
+                    {type === "restaurants" && <FormControl sx={{ m: 1 }} variant="outlined">
+                        <InputLabel htmlFor="outlined-adornment-Title">Restaurant Title</InputLabel>
                         <OutlinedInput
                             required
-                            id="outlined-adornment-phone"
+                            id="outlined-adornment-Title"
                             type='text'
-                            label="phone"
+                            label="Title"
+                            {...register('title')}
+                        />
+                    </FormControl>}
+                    <FormControl sx={{ m: 1 }} variant="outlined">
+                        <InputLabel htmlFor="outlined-adornment-Name">Name</InputLabel>
+                        <OutlinedInput
+                            required
+                            id="outlined-adornment-Name"
+                            type='text'
+                            label="Name"
+                            {...register('name')}
+                        />
+                    </FormControl>
+                    <FormControl sx={{ m: 1 }} variant="outlined">
+                        <InputLabel htmlFor="outlined-adornment-Phone">Phone</InputLabel>
+                        <OutlinedInput
+                            required
+                            id="outlined-adornment-Phone"
+                            type='text'
+                            label="Phone"
                             {...register('phone')}
                         />
                     </FormControl>
                     <FormControl sx={{ m: 1 }} variant="outlined">
-                        <InputLabel htmlFor="outlined-adornment-Email">Email</InputLabel>
+                        <InputLabel htmlFor="outlined-adornment-Address">Address</InputLabel>
                         <OutlinedInput
                             required
-                            id="outlined-adornment-Email"
+                            id="outlined-adornment-Address"
                             type='text'
-                            label="Email"
-                            {...register('email')}
+                            label="Address"
+                            {...register('address')}
+                        />
+                    </FormControl>
+                    <FormControl sx={{ m: 1 }} variant="outlined">
+                        <InputLabel htmlFor="outlined-adornment-Postcode">Postcode</InputLabel>
+                        <OutlinedInput
+                            required
+                            id="outlined-adornment-Postcode"
+                            type='text'
+                            label="Postcode"
+                            {...register('postcode')}
                         />
                     </FormControl>
                     <FormControl sx={{ m: 1 }} variant="outlined">
                         <InputLabel id="demo-simple-select-label">Type</InputLabel>
                         <Select
+                            required
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
                             {...register('type')}
                             label="Type"
+                            onChange={handleChange}
+                            value={type}
+                            defaultValue='customers'
                         >
                             <MenuItem value='customers'>customer</MenuItem>
                             <MenuItem value='restaurants'>restaurant</MenuItem>

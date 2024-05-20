@@ -1,5 +1,4 @@
 import { createBrowserRouter } from "react-router-dom";
-import Order from "./pages/order.page";
 import Home from "./pages/home.page";
 import ErrorPage from "./pages/error.page";
 import { Login } from "./pages/login.page";
@@ -7,6 +6,10 @@ import SearchResult from "./pages/searchResult.page";
 import RestaurantPage from "./pages/restaurant.page";
 import CartPage from "./pages/cart.page";
 import Register from "./pages/register.page";
+import OrderList from './pages/orderList.page';
+import Setting from "./pages/setting.page";
+import AddDish from "./pages/addDish.page";
+import OrderDetail from "./pages/orderDetail.page";
 
 const router = createBrowserRouter([
     {
@@ -14,10 +17,6 @@ const router = createBrowserRouter([
       element: <Home></Home>,
       errorElement: <ErrorPage />,
     },
-    // {
-    //   path: '/order',
-    //   element: <Order></Order>
-    // },
     {
       path: '/auth/login',
       element: <Login></Login>
@@ -37,6 +36,22 @@ const router = createBrowserRouter([
     {
       path: '/cart',
       element: <CartPage></CartPage>
+    },
+    {
+      path: '/orderList',
+      element: <OrderList></OrderList>
+    },
+    {
+      path: '/setting',
+      element: <Setting></Setting>
+    },
+    {
+      path: '/addDish',
+      element: <AddDish></AddDish>
+    },
+    {
+      path: '/orderDetails',
+      element: <OrderDetail></OrderDetail>
     },
   ]);
 
