@@ -1,10 +1,7 @@
-import { Alert, Box, Button, Card, CardContent, CardMedia, Container, Grid, Snackbar, Stack, Tab, Tabs, Typography } from "@mui/material";
+import { Alert, Box, Button, Card, CardContent, CardMedia, Container, Divider, Snackbar, Stack, Typography } from "@mui/material";
 import search_bg from '../images/search_bg.jpeg';
-import RestaurantCard from "../component/restaurantCard.component";
-import { ORANGE, WHITE } from "../utils/constant";
-import Subtitle from "../component/subtitle.component";
-import Title from "../component/title.component";
-import SearchForm, { searchInputs } from "../component/searchForm.component";
+import { WHITE } from "../utils/constant";
+import { searchInputs } from "../component/searchForm.component";
 import TitleAndSearch from "../component/TitleAndSearch.component";
 import { useEffect, useState } from "react";
 import AddIcon from '@mui/icons-material/Add';
@@ -12,14 +9,14 @@ import { useSearchParams } from "react-router-dom";
 import { getMenus, getRestaurant } from "../service/api";
 import { mySnackbar } from "./login.page";
 import EditIcon from '@mui/icons-material/Edit';
+import NoResult from "../component/noResult.component";
+import { isEmpty } from "lodash";
 
 export interface menuInterface {
     
 };
 
 const RestaurantPage = () => {
-
-    const [tab, setTab] = useState();
 
     const [searchParams, setSearchParams] = useSearchParams();
 
@@ -50,8 +47,15 @@ const RestaurantPage = () => {
 
     const addToCart = (menu: any) => {
 
-        const cart = JSON.parse(sessionStorage.getItem("cart") as any)  || {};
+        let cart = JSON.parse(sessionStorage.getItem("cart") as any)  || {};
         let itemsCount = JSON.parse(sessionStorage.getItem("itemsCount") as any) || 0;
+
+        let current_res = Object.values(cart) as any;
+
+        if(!isEmpty(cart) && current_res[0]?.title !== restaurant.title) {
+            cart = {};
+            itemsCount = 0;
+        }
 
 
         if(cart[menu.mid]) {
@@ -113,7 +117,6 @@ const RestaurantPage = () => {
 
 
     const renderMenus = () => {
-        console.log(menus);
         if(menus && menus.length > 0) {
             return menus?.map((menu: any, key: number) => {
                 const img_url = menu?.image || '/images/dish1.png';
@@ -129,13 +132,12 @@ const RestaurantPage = () => {
                             {userInfo?.type === 'customers' ? 
                             <Button sx={{ ml: 2 }} variant="contained" onClick={() => addToCart(menu)}  startIcon={<AddIcon sx={{ color: WHITE }}></AddIcon>}>Add</Button> 
                             : <Button sx={{ ml: 2 }} variant="contained" onClick={() => edit(menu)} startIcon={<EditIcon sx={{ color: WHITE }}></EditIcon>}>Edit</Button>}
-                            
                         </Stack>
                     </Stack>
                 )
             })
         } 
-        return <Typography variant="h3" color='white' textAlign='center'>No dish available currently!</Typography>
+        return <NoResult></NoResult>;
     };
 
     return (
@@ -156,7 +158,7 @@ const RestaurantPage = () => {
                     onSubmit={onSubmit}
                 />}
                 <Stack spacing={4} p={6}>
-                    <Card sx={{ padding: '25px', display: 'flex', alignItems: 'center', background: '#202020', opacity: 0.8 }}>
+                    <Card sx={{ padding: '25px', display: 'flex', alignItems: 'center', background: '#202020', opacity: 0.8, borderRadius: 2}}>
                         <CardMedia image={img_url} sx={{ height: 130, width: 270, mr: 4}} />
                         <CardContent sx={{ color: WHITE }}>
                             <Stack spacing={2}>
@@ -169,16 +171,7 @@ const RestaurantPage = () => {
                             </Stack>
                         </CardContent>
                     </Card>
-                    <Stack direction='row' p={4} spacing={4} sx={{ background: '#202020', opacity: 0.8 }}>
-                        {/* <Tabs
-                            orientation="vertical"
-                            value={tab}
-                            onChange={handleChangeTab}
-                        >
-                            <Tab sx={{ color: WHITE }} label="Recommended" value='Recommended'></Tab>
-                            <Tab sx={{ color: WHITE }} label="Breakfast Box" value='Breakfast Box'></Tab>
-                            <Tab sx={{ color: WHITE }} label="Lunch" value='Lunch'></Tab>
-                        </Tabs> */}
+                    <Stack direction='row' p={4} spacing={4} sx={{ background: '#202020', opacity: 0.8, borderRadius: 2 }}>
                         <Stack spacing={2} width='100%'>
                         {renderMenus()}
                         </Stack>

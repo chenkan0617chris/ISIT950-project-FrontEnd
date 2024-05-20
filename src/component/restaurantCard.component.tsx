@@ -1,4 +1,4 @@
-import { Button, Card, CardActions, CardContent, CardMedia, Stack, Typography } from "@mui/material";
+import { Box, Button, Card, CardActions, CardContent, CardMedia, Stack, Typography } from "@mui/material";
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { DELIVERY_TIME } from "../utils/constant";
 
@@ -27,20 +27,21 @@ const RestaurantCard = (props: RestaurantCardProps) => {
 
     return (
         <Card sx={{ width: '100%', padding: '25px', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-            <CardMedia image={img_url} sx={{ height: '128px', width: '128px' }}>
-
-            </CardMedia>
-            <CardContent sx={{ maxWidth: '80%' }}>
-                <Stack spacing={2}>
-                    <Typography variant="h6">{title}</Typography>
-                    <Typography  variant="body1" sx={{ height: '50px', overflow: "hidden" }}>{description}</Typography>
-                </Stack>
-                <Stack direction={'row'} justifyContent={'space-between'}>
-                    <Typography>${price || 20}</Typography>
-                    <Typography>{distance + DELIVERY_TIME}min</Typography>
-                </Stack>
-                
-            </CardContent>
+            <Box display='flex' alignItems='center'>
+                <CardMedia image={img_url} sx={{ height: '128px', width: '128px' }}>
+                </CardMedia>
+                <CardContent sx={{ maxWidth: '70%' }}>
+                    <Stack spacing={2}>
+                        <Typography variant="h6">{title}</Typography>
+                        <Typography  variant="body1" sx={{ height: '50px', overflow: "hidden" }}>{description}</Typography>
+                    </Stack>
+                    <Stack direction={'row'} justifyContent={'space-between'}>
+                        <Typography>${price || 20}</Typography>
+                        <Typography>{distance + DELIVERY_TIME}min</Typography>
+                    </Stack>
+                    
+                </CardContent>
+            </Box>
             <CardActions>
                 <Button startIcon={<ArrowForwardIosIcon></ArrowForwardIosIcon>} onClick={() => handleClick()}></Button>
             </CardActions>

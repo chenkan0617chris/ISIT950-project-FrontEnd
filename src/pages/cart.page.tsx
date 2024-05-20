@@ -1,11 +1,12 @@
 import { Alert, Box, Button, Container, Divider, FormControl, FormControlLabel, FormLabel, Paper, Radio, RadioGroup, Snackbar, Stack, Typography } from "@mui/material";
 import TitleAndSearch from "../component/TitleAndSearch.component";
-import { ORANGE, WHITE } from "../utils/constant";
+import { ANNUAlLY_MEMBERSHIP_FEE, DELIVERY_FEE, MONTHLY_MEMBERSHIP_FEE, ORANGE, WHITE } from "../utils/constant";
 import { searchInputs } from "../component/searchForm.component";
 import { useEffect, useState } from "react";
 import isEmpty from "lodash/isEmpty";
-import { order } from "../service/api";
+import { getCustomer, membership, order } from "../service/api";
 import { mySnackbar } from "./login.page";
+import moment from "moment";
 
 const CartPage = () => {
 
@@ -21,13 +22,9 @@ const CartPage = () => {
 
     const [membershipFee, setMembershipFee] = useState(0);
 
-    const [delivery_fee, setDelivery_fee] = useState(9.99);
+    const [delivery_fee, setDelivery_fee] = useState(DELIVERY_FEE);
 
     const [discount, setDiscount] = useState(0);
-
-    useEffect(() => {
-
-    }, []);
 
     const onSubmit = (value: searchInputs) => {
 
@@ -40,28 +37,54 @@ const CartPage = () => {
     };
 
     const handleChange = (e: any) => {
+        if(isEmpty(cart)) return;
+
         setSubscription(e.target.value);
-        if(e.target.value === 'monthly') {
-            setMembershipFee(20);
-            setDelivery_fee(0);
-        } else if(e.target.value === 'annually') {
-            setMembershipFee(120);
-            setDelivery_fee(0);
-        } else {
-            setDelivery_fee(9.99);
-            setMembershipFee(0);
-        }
+        
     };
 
     useEffect(() => {
-        if(subscription === 'no'){
-            setDiscount(0);
-        } else {
-            let amount = (total*0.1);
-            setDiscount(Number(amount.toFixed(2)));
-        }
 
-    }, [total, subscription]);
+    }, []);
+
+
+    useEffect(() => {
+        if(isEmpty(cart)) return;
+        let newTotal = 0;
+        Object.values(cart).forEach((item: any) => {
+            newTotal += item.count * item.price;
+        })
+        if(userInfo?.membership && moment(userInfo?.membership_expire_date).diff(moment()) > 0){
+            setDelivery_fee(0);
+            setMembershipFee(0);
+            let newDiscount = Number(Number(newTotal*0.1).toFixed(2));
+            setDiscount(newDiscount);
+            setTotal(newTotal-newDiscount);
+        } else {
+            if(subscription === 'monthly') {
+                setMembershipFee(MONTHLY_MEMBERSHIP_FEE);
+                setDelivery_fee(0);
+                newTotal += MONTHLY_MEMBERSHIP_FEE;
+                let newDiscount = Number(Number(newTotal*0.1).toFixed(2));
+                setDiscount(newDiscount);
+                setTotal(newTotal-newDiscount);
+    
+            } else if(subscription === 'annually') {
+                setMembershipFee(ANNUAlLY_MEMBERSHIP_FEE);
+                setDelivery_fee(0);
+                newTotal += ANNUAlLY_MEMBERSHIP_FEE;
+                let newDiscount = Number(Number(newTotal*0.1).toFixed(2));
+                setDiscount(newDiscount);
+                setTotal(newTotal-newDiscount);
+            } else {
+                setDelivery_fee(DELIVERY_FEE);
+                setMembershipFee(0);
+                newTotal += DELIVERY_FEE;
+                setTotal(newTotal);
+            }
+        }
+        
+    }, [userInfo, cart, subscription]);
 
     useEffect(() => {
         let cartItems = sessionStorage.getItem("cart");
@@ -76,21 +99,6 @@ const CartPage = () => {
         setUserInfo(newUserInfo);
         
     }, []);
-
-    useEffect(() => {
-        let newTotal = 0;
-        if(isEmpty(cart)) return;
-        Object.values(cart).forEach((item: any) => {
-            newTotal += item.count * item.price;
-        })
-
-        newTotal += delivery_fee;
-        newTotal += membershipFee;
-
-        newTotal -= discount;
-
-        setTotal(newTotal);
-    }, [cart, delivery_fee, membershipFee, discount]);
 
     const handleSub = (mid: number) => {
 
@@ -173,25 +181,60 @@ const CartPage = () => {
             let data = {
                 cid: userInfo.cid,
                 items: Object.values(cart),
-                total
+                total,
+                balance: userInfo.balance
             }
 
-            order(data).then((res: any) => {
+            if(total > userInfo?.balance){
                 setSnack({
-                    severity: 'success',
-                    message: 'Ordered successfully!',
+                    severity: 'error',
+                    message: 'Insufficient balance to pay for this order!',
                 })
                 setOpen(true);
+            } else {
+                if(subscription === 'no') {
+                    orderFunc(data);
+                } else {
+                    let membership_data = {
+                        cid: userInfo.cid,
+                        membership_expire_date: subscription === 'monthly' ?  
+                        moment().add(1, 'month').format('YYYY-MM-DD H:mm:ss') : 
+                        moment().add(1, 'year').format('YYYY-MM-DD H:mm:ss')
+                    }
+                    membership(membership_data).then((res: any) => {
+                        orderFunc(data);
+                    }).catch((err: any) => {
+                        setSnack({
+                            severity: 'error',
+                            message: err.message,
+                        })
+                        setOpen(true);
+                    });
+                }
+            }
+        }
+    };
 
+    const orderFunc = (data: any) => {
+        order(data).then((res: any) => {
+            setSnack({
+                severity: 'success',
+                message: 'Ordered successfully!',
+            })
+            setOpen(true);
+
+            getCustomer({
+                cid: userInfo.cid,
+            }).then((customer) => {
+                sessionStorage.setItem('userInfo', JSON.stringify(customer));
+                setUserInfo(customer);
                 setTimeout(() => {
                     sessionStorage.removeItem('cart');
                     sessionStorage.removeItem('itemsCount');
                     window.location.href = '/orderList';
                 }, 2000);
-
-
-            })
-        }
+            });
+        })
     };
 
     const [open, setOpen] = useState(false);
@@ -203,6 +246,44 @@ const CartPage = () => {
 
     const handleClose = () => {
         setOpen(false);
+    }
+
+    const checkout = () => {
+        if(isEmpty(cart)) {
+            return <></>;
+        }
+        if(userInfo.membership && moment(userInfo?.membership_expire_date).diff(moment()) > 0) {
+            return <>
+            <Stack mt={2} spacing={2} direction='row' sx={{ justifyContent: 'space-between' }}>
+                <Typography variant='body1'>Discount</Typography>
+                <Typography variant='h5'>${discount}</Typography>
+            </Stack>
+            <Stack mt={2} spacing={2} direction='row' sx={{ justifyContent: 'space-between' }}>
+                <Typography variant='h5'>Total</Typography>
+                <Typography variant='h5'>${total.toFixed(2)}</Typography>
+            </Stack>
+            <Button onClick={() => {submitOrder()}} sx={{ mt: 2 }} fullWidth variant="contained">Proceed To Payment</Button>
+        </>
+        }
+        return <>
+            {subscription === 'no' && <Stack mt={2} spacing={2} direction='row' sx={{ justifyContent: 'space-between' }}>
+                <Typography variant='body1'>Delivery fee</Typography>
+                <Typography variant='h5'>${delivery_fee}</Typography>
+            </Stack>}
+            {subscription !== 'no' && <Stack mt={2} spacing={2} direction='row' sx={{ justifyContent: 'space-between' }}>
+                <Typography variant='body1'>Membership fee</Typography>
+                <Typography variant='h5'>${membershipFee}</Typography>
+            </Stack>}
+            {subscription !== 'no' && <Stack mt={2} spacing={2} direction='row' sx={{ justifyContent: 'space-between' }}>
+                <Typography variant='body1'>Discount</Typography>
+                <Typography variant='h5'>${discount}</Typography>
+            </Stack>}
+            <Stack mt={2} spacing={2} direction='row' sx={{ justifyContent: 'space-between' }}>
+                <Typography variant='h5'>Total</Typography>
+                <Typography variant='h5'>${total.toFixed(2)}</Typography>
+            </Stack>
+            <Button onClick={() => {submitOrder()}} sx={{ mt: 2 }} fullWidth variant="contained">Proceed To Payment</Button>
+        </>
     }
 
 
@@ -232,13 +313,16 @@ const CartPage = () => {
                         <Box>
                             <Typography variant="h5" color={ORANGE}>Delivery address</Typography>
                             <Typography variant="body1">{userInfo?.address}</Typography>
-
-                            {/* <Paper sx={{ width: 350, height: 75, textAlign: 'center', lineHeight: '75px'}} elevation={3}>{userInfo?.address}</Paper> */}
                             <Divider></Divider>
                         </Box>
                         <Box>
                             <Typography variant="h5" color={ORANGE}>Membership subscription</Typography>
                             <FormControl>
+                                {userInfo?.membership ? 
+                                <Stack pt={2} pb={2} spacing={2}>
+                                    <Typography>Your membership is active</Typography>
+                                    <Typography>Expire at: {moment(userInfo?.membership_expire_date).format('YYYY-MM-DD H:mm:ss')} </Typography>
+                                </Stack>: 
                                 <RadioGroup
                                     aria-labelledby="demo-radio-buttons-group-label"
                                     defaultValue="no"
@@ -248,7 +332,7 @@ const CartPage = () => {
                                     <FormControlLabel color="white" value="monthly" control={<Radio />} label="Monthly" />
                                     <FormControlLabel color="white" value="annually" control={<Radio />} label="Annually" />
                                     <FormControlLabel color="white" value="no" control={<Radio />} label="No subscription" />
-                                </RadioGroup>
+                                </RadioGroup>}
                             </FormControl>
                             <Divider></Divider>
                         </Box>
@@ -262,25 +346,7 @@ const CartPage = () => {
                         <Typography variant="body1">{itemsCount} Items</Typography>
                     </Stack>
                     {renderCart()}
-                    {!isEmpty(cart) && <>
-                        {subscription === 'no' &&<Stack mt={2} spacing={2} direction='row' sx={{ justifyContent: 'space-between' }}>
-                            <Typography variant='body1'>Delivery fee</Typography>
-                            <Typography variant='h5'>${delivery_fee}</Typography>
-                        </Stack>}
-                        {subscription !== 'no' &&<Stack mt={2} spacing={2} direction='row' sx={{ justifyContent: 'space-between' }}>
-                            <Typography variant='body1'>Membership fee</Typography>
-                            <Typography variant='h5'>${membershipFee}</Typography>
-                        </Stack>}
-                        {subscription !== 'no' &&<Stack mt={2} spacing={2} direction='row' sx={{ justifyContent: 'space-between' }}>
-                            <Typography variant='body1'>Discount</Typography>
-                            <Typography variant='h5'>${discount}</Typography>
-                        </Stack>}
-                        <Stack mt={2} spacing={2} direction='row' sx={{ justifyContent: 'space-between' }}>
-                            <Typography variant='h5'>Total</Typography>
-                            <Typography variant='h5'>${total.toFixed(2)}</Typography>
-                        </Stack>
-                        <Button onClick={() => {submitOrder()}} sx={{ mt: 2 }} fullWidth variant="contained">Proceed To Payment</Button>
-                    </>}
+                    {checkout()}
                 </Box>
             </Box>
         </Box>

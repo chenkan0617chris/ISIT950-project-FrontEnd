@@ -9,6 +9,7 @@ import Register from "./pages/register.page";
 import OrderList from './pages/orderList.page';
 import Setting from "./pages/setting.page";
 import AddDish from "./pages/addDish.page";
+import OrderDetail from "./pages/orderDetail.page";
 
 const router = createBrowserRouter([
     {
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
     {
       path: '/addDish',
       element: <AddDish></AddDish>
+    },
+    {
+      path: '/orderDetails',
+      element: <OrderDetail></OrderDetail>
     },
   ]);
 

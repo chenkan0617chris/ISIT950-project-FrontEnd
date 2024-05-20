@@ -68,7 +68,7 @@ const SearchResult = () => {
         if(!isEmpty(results)) {
             return results?.map((restaurant: Restaurant, index) => {
                 return (
-                    <Grid item key={index}>
+                    <Grid item key={index} width='100%'>
                         <RestaurantCard
                             restaurant={restaurant}
                             handleClick={() => {

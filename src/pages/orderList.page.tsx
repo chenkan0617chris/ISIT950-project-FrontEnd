@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import search_bg from '../images/search_bg.jpeg';
 import TitleAndSearch from "../component/TitleAndSearch.component";
 import { searchInputs } from "../component/searchForm.component";
-import { getAllOrderList, getOrderList, getRestaurantOrderList, restaurantCompleteOrder, restaurantConfirmOrder, restaurantDeliveringOrder, restaurantProcessedOrder } from "../service/api";
+import { cancelOrder, getAllOrderList, getOrderList, getRestaurantOrderList, restaurantCompleteOrder, restaurantConfirmOrder, restaurantDeliveringOrder, restaurantProcessedOrder } from "../service/api";
 import { isEmpty } from "lodash";
 import NoResult from "../component/noResult.component";
 import CheckIcon from '@mui/icons-material/Check';
@@ -12,7 +12,9 @@ import { DELIVERY_TIME } from "../utils/constant";
 
 const OrderList = () => {
 
-    const [tab, setTab] = useState('all');
+    const session = JSON.parse(sessionStorage.getItem("userInfo") as any);
+
+    const [tab, setTab] = useState(session.type === 'deliveryPerson' ? 'processed' : 'all');
 
     const [userInfo, setUserInfo] = useState() as any;
 
@@ -111,6 +113,29 @@ const OrderList = () => {
         });
     }
 
+    const cancel = (item: any) => {
+        console.log(item);
+        let data = {
+            oid: item.oid,
+            total_price: item.total_price,
+            cid: item.customer_id,
+        };
+
+        cancelOrder(data).then((res: any) => {
+            setSnack({
+                severity: 'success',
+                message: res.message,
+            })
+            setOpen(true);
+        }).catch((err) => {
+            setSnack({
+                severity: 'error',
+                message: err.message,
+            })
+            setOpen(true);
+        });
+    }
+
     const processed = (oid: number) => {
 
         restaurantProcessedOrder({oid}).then((res: any) => {
@@ -168,7 +193,11 @@ const OrderList = () => {
             setOpen(true);
         });
 
-    }
+    };
+
+    const goToDetails = (item: any) => {
+        window.location.href = `/orderDetails?oid=${item.oid}`;
+    };
 
     const renderList = () => {
         if(!isEmpty(list)) {
@@ -182,7 +211,7 @@ const OrderList = () => {
                         <CardMedia image={img} sx={{ height: '250px', width: '250px' }} />
                         <CardContent sx={{ minWidth: '200px' }}>
                             <Stack spacing={2}>
-                                <Typography variant="h6" component='span'>Order ID: {item.oid}</Typography>
+                                <Typography sx={{ cursor: 'pointer', ":hover": { 'text-decoration': 'underline' } }} onClick={() => goToDetails(item)} variant="h6" component='span'>Order ID: {item.oid}</Typography>
                                 <Typography variant="h6" component='span'>Restaurant Name: {item.title}</Typography>
                             </Stack>
                             <Stack spacing={2}>
@@ -200,8 +229,7 @@ const OrderList = () => {
                             <ul>
                                 {items.map((dish: any, key: number) => {
                                     return <li key={key}>
-                                        <Typography variant="body2">{dish.name}</Typography>
-                                        <Typography variant="body2"> x{dish.count}</Typography>
+                                        <Typography variant="body2">{dish.name} x {dish.count}</Typography>
                                     </li>
                                 })}
                             </ul>
@@ -209,6 +237,9 @@ const OrderList = () => {
                         
                         {isRestaurant && item.status === 'submitted' && <CardActions>
                             <Button startIcon={<CheckIcon></CheckIcon>} onClick={() => confirm(item.oid)}>Confirm</Button>
+                        </CardActions>}
+                        {isRestaurant && item.status === 'submitted' && <CardActions>
+                            <Button startIcon={<CheckIcon></CheckIcon>} onClick={() => cancel(item)}>Cancel</Button>
                         </CardActions>}
                         {isRestaurant && item.status === 'processing' && <CardActions>
                             <Button startIcon={<CheckIcon></CheckIcon>} onClick={() => processed(item.oid)}>Processed</Button>
@@ -226,6 +257,7 @@ const OrderList = () => {
         return <NoResult/>
     };
 
+    console.log(tab)
 
     return (
         <Box sx={{ width: '100%',  background: `url(${search_bg})`, backgroundSize: 'cover'}}>
@@ -246,13 +278,14 @@ const OrderList = () => {
                 />
                 <Container >
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                        <Tabs sx={{ color: 'white' }}  value={tab} onChange={handleChange} aria-label="basic tabs example">
-                            <Tab sx={{ color: 'white' }} color='white' label="All" value='all'></Tab>
-                            <Tab sx={{ color: 'white' }} label="Submitted" value='submitted'></Tab>
-                            <Tab sx={{ color: 'white' }} label="Processing" value='processing'></Tab>
+                        <Tabs sx={{ color: 'white' }} value={tab} onChange={handleChange} aria-label="basic tabs example">
+                            {(isCustomer || isRestaurant) && <Tab sx={{ color: 'white' }} color='white' label="All" value='all'></Tab>}
+                            {(isCustomer || isRestaurant) && <Tab sx={{ color: 'white' }} label="Submitted" value='submitted'></Tab>}
+                            {(isCustomer || isRestaurant) && <Tab sx={{ color: 'white' }} label="Processing" value='processing'></Tab>}
                             <Tab sx={{ color: 'white' }} label="Processed" value='processed'></Tab>
                             <Tab sx={{ color: 'white' }} label="Delivering" value='delivering'></Tab>
                             <Tab sx={{ color: 'white' }} label="Completed" value='completed'></Tab>
+                            {(isCustomer || isRestaurant) && <Tab sx={{ color: 'white' }} label="Canceled" value='canceled'></Tab>}
                         </Tabs>
                     </Box>
                     <Stack spacing={4} mt={4} mb={4}>

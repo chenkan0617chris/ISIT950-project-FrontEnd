@@ -2,8 +2,9 @@ import { Alert, Box, Button, Container, FormControl, InputLabel, OutlinedInput, 
 import loginBg from '../images/login_new.png';
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { updateRestaurantSettings, updateSettings } from "../service/api";
+import { getCustomer, membership, updateRestaurantSettings, updateSettings } from "../service/api";
 import { mySnackbar } from "./login.page";
+import moment from "moment";
 
 interface Inputs {
     name?: string;
@@ -24,8 +25,16 @@ const Setting = () => {
     useEffect(() => {
 
         let newUserInfo = JSON.parse(sessionStorage.getItem("userInfo") as any);
-        
-        setUserInfo(newUserInfo);
+
+        if(newUserInfo && newUserInfo.type === 'customers'){
+            getCustomer({
+                cid: newUserInfo.cid
+            }).then((customer) => {
+                setUserInfo(customer);
+            });
+        } else {
+            setUserInfo(newUserInfo);
+        }
         
     }, []);
 
@@ -139,6 +148,28 @@ const Setting = () => {
                     {...register('postcode')}
                 />
             </FormControl>
+            <FormControl sx={{ m: 1 }} variant="outlined">
+                <InputLabel htmlFor="outlined-adornment-Balance">Balance</InputLabel>
+                <OutlinedInput
+                    required
+                    id="outlined-adornment-Balance"
+                    type='number'
+                    label="Balance"
+                    defaultValue={userInfo?.balance}
+                    disabled
+                />
+            </FormControl>
+            {userInfo?.membership && <FormControl sx={{ m: 1 }} variant="outlined">
+                <InputLabel htmlFor="outlined-adornment-Membership">Membership</InputLabel>
+                <OutlinedInput
+                    required
+                    id="outlined-adornment-Membership"
+                    type='text'
+                    label="Membership"
+                    defaultValue={moment(userInfo?.membership_expire_date).format('YYYY-MM-DD H:mm:ss')}
+                    disabled
+                />
+            </FormControl>}
             <Button type='submit' variant="contained">Update</Button>
         </Stack>
     </Box>

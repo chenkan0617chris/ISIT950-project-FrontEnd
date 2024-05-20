@@ -177,6 +177,21 @@ export const restaurantConfirmOrder = (data: any) => {
     })
 };
 
+export const cancelOrder = (data: any) => {
+    return new Promise<any>((resolve, reject) => {
+        axios.post('/orders/cancelOrder', {
+            data
+        })
+        .then((response: any) => {
+            console.log(response);
+            resolve(response.data);
+        }).catch(err => {
+            console.log(err);
+            reject(err.response.data)
+        });
+    })
+};
+
 export const restaurantProcessedOrder = (data: any) => {
     return new Promise<any>((resolve, reject) => {
         axios.post('/orders/restaurantProcessedOrder', {
@@ -286,3 +301,62 @@ export const editDish = (data: any) => {
     })
 };
 
+export const orderDetail = (data: any) => {
+    return new Promise<any>((resolve, reject) => {
+        axios.post('/orders/orderDetail', {
+            data
+        })
+        .then((response: any) => {
+            console.log(response);
+            resolve(response.data[0]);
+        }).catch(err => {
+            console.log(err);
+            reject(err.response.data)
+        });
+    })
+};
+
+export const getCustomer = (data: any) => {
+    return new Promise<any>((resolve, reject) => {
+        axios.post('/getCustomer', {
+            data
+        })
+        .then((response: any) => {
+            console.log(response);
+            resolve(response.data);
+        }).catch(err => {
+            console.log(err);
+            reject(err.response.data)
+        });
+    })
+};
+
+export const membership = (data: any) => {
+    return new Promise<any>((resolve, reject) => {
+        axios.post('/users/membership', {
+            data
+        })
+        .then((response: any) => {
+            console.log(response);
+            resolve(response.data);
+        }).catch(err => {
+            console.log(err);
+            reject(err.response.data)
+        });
+    })
+};
+
+export const rating = (data: any) => {
+    return new Promise<any>((resolve, reject) => {
+        axios.post('/orders/rating', {
+            data
+        })
+        .then((response: any) => {
+            console.log(response);
+            resolve(response.data);
+        }).catch(err => {
+            console.log(err);
+            reject(err.response.data)
+        });
+    })
+};

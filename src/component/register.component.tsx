@@ -19,6 +19,7 @@ type Inputs = {
     address: string;
     postcode: string;
     title?: string;
+    name?: string;
   }
 
 interface RegisterFormProps {
@@ -121,6 +122,16 @@ export default function RegisterForm(props: RegisterFormProps): ReactElement {
                             {...register('title')}
                         />
                     </FormControl>}
+                    <FormControl sx={{ m: 1 }} variant="outlined">
+                        <InputLabel htmlFor="outlined-adornment-Name">Name</InputLabel>
+                        <OutlinedInput
+                            required
+                            id="outlined-adornment-Name"
+                            type='text'
+                            label="Name"
+                            {...register('name')}
+                        />
+                    </FormControl>
                     <FormControl sx={{ m: 1 }} variant="outlined">
                         <InputLabel htmlFor="outlined-adornment-Phone">Phone</InputLabel>
                         <OutlinedInput
