@@ -1,4 +1,4 @@
-import { Box, Grid, Stack, Typography } from "@mui/material";
+import { Box, Container, Grid, Stack, Typography } from "@mui/material";
 import Title from "../component/title.component";
 import Subtitle from "../component/subtitle.component";
 import SearchForm, { searchInputs } from "../component/searchForm.component";
@@ -9,6 +9,8 @@ import TitleAndSearch from "../component/TitleAndSearch.component";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { search } from "../service/api";
+import { isEmpty } from "lodash";
+import NoResult from "../component/noResult.component";
 
 const SearchResult = () => {
 
@@ -61,30 +63,40 @@ const SearchResult = () => {
         onSubmit(form);
     }, []);
 
+    const renderResult = () => {
+        console.log(results);
+        if(!isEmpty(results)) {
+            return results?.map((restaurant: Restaurant, index) => {
+                return (
+                    <Grid item key={index}>
+                        <RestaurantCard
+                            restaurant={restaurant}
+                            handleClick={() => {
+                                handleClick(restaurant);
+                            }}
+                        />
+                    </Grid>
+                )
+            })
+        }
+        return <NoResult></NoResult>
+    };
+
     return (
         <Box sx={{ width: '100%',  background: `url(${search_bg})`, backgroundSize: 'cover'}}>
-            <TitleAndSearch
-                onSubmit={onSubmit}
-            />
-            <Stack spacing={4} p={6}>
-                <Stack spacing={2}>
-                    <Typography color={WHITE}>Search results for “{searchTerm}”</Typography>
+            <Container maxWidth="xl">
+                <TitleAndSearch
+                    onSubmit={onSubmit}
+                />
+                <Stack spacing={4} p={6}>
+                    <Stack spacing={2}>
+                        <Typography color={WHITE}>Search results for “{searchTerm}”</Typography>
+                    </Stack>
+                    <Grid container spacing={4}>
+                        {renderResult()}
+                    </Grid>
                 </Stack>
-                <Grid container spacing={4}>
-                    {results && results.map((restaurant: Restaurant, index) => {
-                        return (
-                            <Grid item key={index}>
-                                <RestaurantCard
-                                    restaurant={restaurant}
-                                    handleClick={() => {
-                                        handleClick(restaurant);
-                                    }}
-                                />
-                            </Grid>
-                        )
-                    })}
-                </Grid>
-            </Stack>
+            </Container>
         </Box>
     )
 };

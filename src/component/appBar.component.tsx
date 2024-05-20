@@ -1,18 +1,41 @@
 import { AppBar, Box, Button, Container, Toolbar } from "@mui/material";
 import { RED } from "../utils/constant";
+import { useEffect, useState } from "react";
 
 const MyAppBar = () => {
-    let appBar;
-    // const appBar = ['Tracking', 'Menu', 'History', 'Cart', 'Membership', 'Home', 'About', 'Contact', 'login'];
 
-    if(sessionStorage.getItem('userInfo')){
-        appBar = ['Home', 'Search', 'History', 'Cart', 'Membership', 'logout'];
-    } else {
-        appBar = ['Home', 'Search', 'History', 'Cart', 'Membership', 'login'];
-    }
+    const [userInfo, setUserInfo] = useState<any>();
+
+    const [appBar, setAppBar] = useState<any[]>(['Home', 'Search', 'Order List', 'Cart', 'Setting', 'login']);
+
+    useEffect(() => {
+        const userInfo = sessionStorage.getItem('userInfo');
+
+        if (!userInfo) return;
+
+        setUserInfo(JSON.parse(userInfo));
+    }, []);
+
+    useEffect(() => {
+        if(userInfo) {
+            if(userInfo?.type === 'customers') {
+                setAppBar(['Home', 'Search', 'Order List', 'Cart', 'Setting', 'logout']);
+            } else if(userInfo?.type === 'restaurants') {
+                setAppBar(['Home', 'Order List', 'Menu', 'Add dish', 'Setting', 'logout']);
+            } else {
+                setAppBar(['Home', 'Order List', 'logout']);
+            }
+        } else {
+            setAppBar(['Home', 'Search', 'Order List', 'Cart', 'Setting', 'login']);
+        }
+        
+
+    }, [userInfo]);
+    
+
 
     const handleAppBarClick = (page: string) => {
-        if(!sessionStorage.getItem('userInfo')) {
+        if(!userInfo) {
             window.location.href = '/auth/login';
             return;
         }
@@ -33,8 +56,17 @@ const MyAppBar = () => {
             case 'Cart':
                 window.location.href = '/cart';
                 return;
-            case 'History':
-                window.location.href = '/history';
+            case 'Setting':
+                window.location.href = '/setting';
+                return;
+            case 'Order List':
+                window.location.href = '/orderList';
+                return;
+            case 'Add dish':
+                window.location.href = '/addDish';
+                return;
+            case 'Menu':
+                window.location.href = `/restaurant?title=${userInfo?.title}`;
                 return;
             default:
                 return;

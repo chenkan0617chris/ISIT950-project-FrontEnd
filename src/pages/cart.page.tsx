@@ -186,7 +186,7 @@ const CartPage = () => {
                 setTimeout(() => {
                     sessionStorage.removeItem('cart');
                     sessionStorage.removeItem('itemsCount');
-                    window.location.href = '/history';
+                    window.location.href = '/orderList';
                 }, 2000);
 
 

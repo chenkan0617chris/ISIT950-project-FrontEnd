@@ -1,5 +1,6 @@
 import { Button, Card, CardActions, CardContent, CardMedia, Stack, Typography } from "@mui/material";
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import { DELIVERY_TIME } from "../utils/constant";
 
 export interface Restaurant {
     title: string;
@@ -25,18 +26,18 @@ const RestaurantCard = (props: RestaurantCardProps) => {
     const img_url = image || '/images/res_default.png';
 
     return (
-        <Card sx={{ maxWidth: 500, padding: '25px', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+        <Card sx={{ width: '100%', padding: '25px', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
             <CardMedia image={img_url} sx={{ height: '128px', width: '128px' }}>
 
             </CardMedia>
-            <CardContent>
+            <CardContent sx={{ maxWidth: '80%' }}>
                 <Stack spacing={2}>
                     <Typography variant="h6">{title}</Typography>
-                    <Typography variant="subtitle1">{description}</Typography>
+                    <Typography  variant="body1" sx={{ height: '50px', overflow: "hidden" }}>{description}</Typography>
                 </Stack>
                 <Stack direction={'row'} justifyContent={'space-between'}>
                     <Typography>${price || 20}</Typography>
-                    <Typography>{distance}min</Typography>
+                    <Typography>{distance + DELIVERY_TIME}min</Typography>
                 </Stack>
                 
             </CardContent>

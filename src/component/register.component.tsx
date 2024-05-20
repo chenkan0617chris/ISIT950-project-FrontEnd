@@ -121,26 +121,16 @@ export default function RegisterForm(props: RegisterFormProps): ReactElement {
                             {...register('title')}
                         />
                     </FormControl>}
-                    {/* <FormControl sx={{ m: 1 }} variant="outlined">
-                        <InputLabel htmlFor="outlined-adornment-phone">phone</InputLabel>
+                    <FormControl sx={{ m: 1 }} variant="outlined">
+                        <InputLabel htmlFor="outlined-adornment-Phone">Phone</InputLabel>
                         <OutlinedInput
                             required
-                            id="outlined-adornment-phone"
+                            id="outlined-adornment-Phone"
                             type='text'
-                            label="phone"
+                            label="Phone"
                             {...register('phone')}
                         />
                     </FormControl>
-                    <FormControl sx={{ m: 1 }} variant="outlined">
-                        <InputLabel htmlFor="outlined-adornment-Email">Email</InputLabel>
-                        <OutlinedInput
-                            required
-                            id="outlined-adornment-Email"
-                            type='text'
-                            label="Email"
-                            {...register('email')}
-                        />
-                    </FormControl> */}
                     <FormControl sx={{ m: 1 }} variant="outlined">
                         <InputLabel htmlFor="outlined-adornment-Address">Address</InputLabel>
                         <OutlinedInput

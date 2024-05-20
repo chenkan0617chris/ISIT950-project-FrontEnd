@@ -11,6 +11,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { useSearchParams } from "react-router-dom";
 import { getMenus, getRestaurant } from "../service/api";
 import { mySnackbar } from "./login.page";
+import EditIcon from '@mui/icons-material/Edit';
 
 export interface menuInterface {
     
@@ -22,9 +23,17 @@ const RestaurantPage = () => {
 
     const [searchParams, setSearchParams] = useSearchParams();
 
-    const onSubmit = (value: searchInputs) => {
+    const [userInfo, setUserInfo] = useState<any>();
 
-        const userInfo: any = JSON.parse(sessionStorage.getItem("userInfo") as any);
+    useEffect(() => {
+
+        let newUserInfo = JSON.parse(sessionStorage.getItem("userInfo") as any);
+        
+        setUserInfo(newUserInfo);
+        
+    }, []);
+
+    const onSubmit = (value: searchInputs) => {
 
         if (!userInfo) {
             window.location.href = '/auth/login';
@@ -38,13 +47,9 @@ const RestaurantPage = () => {
 
     const [restaurant, setRestaurant] = useState<any>();
 
-    const handleChangeTab = (event: React.SyntheticEvent, newValue: any) => {
-        setTab(newValue);
-    };
 
     const addToCart = (menu: any) => {
 
-        console.log(menu);
         const cart = JSON.parse(sessionStorage.getItem("cart") as any)  || {};
         let itemsCount = JSON.parse(sessionStorage.getItem("itemsCount") as any) || 0;
 
@@ -69,6 +74,11 @@ const RestaurantPage = () => {
         })
         setOpen(true);
         
+    };
+
+    const edit = (menu: any) => {
+        window.location.href = `/addDish?mid=${menu.mid}&name=${menu.name}&description=${menu.description}&price=${menu.price}`
+        console.log(menu);
     };
 
     const [open, setOpen] = useState(false);
@@ -116,7 +126,10 @@ const RestaurantPage = () => {
                         </Stack>
                         <Stack direction='row'>
                             <img alt="" src={img_url} width={160} height={160}></img>
-                            <Button variant="contained" onClick={() => addToCart(menu)}  startIcon={<AddIcon sx={{ color: WHITE }}></AddIcon>}>Add</Button>
+                            {userInfo?.type === 'customers' ? 
+                            <Button sx={{ ml: 2 }} variant="contained" onClick={() => addToCart(menu)}  startIcon={<AddIcon sx={{ color: WHITE }}></AddIcon>}>Add</Button> 
+                            : <Button sx={{ ml: 2 }} variant="contained" onClick={() => edit(menu)} startIcon={<EditIcon sx={{ color: WHITE }}></EditIcon>}>Edit</Button>}
+                            
                         </Stack>
                     </Stack>
                 )
@@ -127,49 +140,52 @@ const RestaurantPage = () => {
 
     return (
         <Box sx={{ width: '100%',  background: `url(${search_bg})`, backgroundSize: 'cover'}}>
-            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-                <Alert
-                    onClose={handleClose}
-                    severity={snack.severity}
-                    variant="filled"
-                    sx={{ width: '100%' }}
-                >
-                    
-                    {snack.message}
-                </Alert>
-            </Snackbar>
-            <TitleAndSearch
-                onSubmit={onSubmit}
-            />
-            <Stack spacing={4} p={6}>
-                <Card sx={{ padding: '25px', display: 'flex', alignItems: 'center', background: '#202020', opacity: 0.8 }}>
-                    <CardMedia image={img_url} sx={{ height: 130, width: 270, mr: 4}} />
-                    <CardContent sx={{ color: WHITE }}>
-                        <Stack spacing={2}>
-                            <Typography  variant="h6">{restaurant?.title}</Typography>
-                            <Typography variant="subtitle1">{restaurant?.description}</Typography>
-                        </Stack>
-                        <Stack direction={'row'} justifyContent={'space-between'}>
-                            <Typography>${restaurant?.avgPrice || 20}</Typography>
-                            <Typography>{distance}min</Typography>
-                        </Stack>
-                    </CardContent>
-                </Card>
-                <Stack direction='row' p={4} spacing={4} sx={{ background: '#202020', opacity: 0.8 }}>
-                    {/* <Tabs
-                        orientation="vertical"
-                        value={tab}
-                        onChange={handleChangeTab}
+            <Container maxWidth='xl'>
+                <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                    <Alert
+                        onClose={handleClose}
+                        severity={snack.severity}
+                        variant="filled"
+                        sx={{ width: '100%' }}
                     >
-                        <Tab sx={{ color: WHITE }} label="Recommended" value='Recommended'></Tab>
-                        <Tab sx={{ color: WHITE }} label="Breakfast Box" value='Breakfast Box'></Tab>
-                        <Tab sx={{ color: WHITE }} label="Lunch" value='Lunch'></Tab>
-                    </Tabs> */}
-                    <Stack spacing={2} width='100%'>
-                    {renderMenus()}
+                        
+                        {snack.message}
+                    </Alert>
+                </Snackbar>
+                {userInfo?.type === 'customers' && <TitleAndSearch
+                    onSubmit={onSubmit}
+                />}
+                <Stack spacing={4} p={6}>
+                    <Card sx={{ padding: '25px', display: 'flex', alignItems: 'center', background: '#202020', opacity: 0.8 }}>
+                        <CardMedia image={img_url} sx={{ height: 130, width: 270, mr: 4}} />
+                        <CardContent sx={{ color: WHITE }}>
+                            <Stack spacing={2}>
+                                <Typography  variant="h6">{restaurant?.title}</Typography>
+                                <Typography variant="subtitle1">{restaurant?.description}</Typography>
+                            </Stack>
+                            <Stack direction={'row'} justifyContent={'space-between'}>
+                                <Typography>${restaurant?.avgPrice || 20}</Typography>
+                                <Typography>{distance}min</Typography>
+                            </Stack>
+                        </CardContent>
+                    </Card>
+                    <Stack direction='row' p={4} spacing={4} sx={{ background: '#202020', opacity: 0.8 }}>
+                        {/* <Tabs
+                            orientation="vertical"
+                            value={tab}
+                            onChange={handleChangeTab}
+                        >
+                            <Tab sx={{ color: WHITE }} label="Recommended" value='Recommended'></Tab>
+                            <Tab sx={{ color: WHITE }} label="Breakfast Box" value='Breakfast Box'></Tab>
+                            <Tab sx={{ color: WHITE }} label="Lunch" value='Lunch'></Tab>
+                        </Tabs> */}
+                        <Stack spacing={2} width='100%'>
+                        {renderMenus()}
+                        </Stack>
                     </Stack>
                 </Stack>
-            </Stack>
+            </Container>
+
         </Box>)
 };
 

@@ -103,7 +103,7 @@ export const getMenus = (title: string) => {
 
 export const order = (data: any) => {
     return new Promise<any>((resolve, reject) => {
-        axios.post('/order', {
+        axios.post('/orders/order', {
             data
         })
         .then((response: any) => {
@@ -116,9 +116,9 @@ export const order = (data: any) => {
     })
 };
 
-export const getHistory = (data: any) => {
+export const getOrderList = (data: any) => {
     return new Promise<any>((resolve, reject) => {
-        axios.post('/history', {
+        axios.post('/orders/orderList', {
             data
         })
         .then((response: any) => {
@@ -131,9 +131,158 @@ export const getHistory = (data: any) => {
     })
 };
 
-export const getUser = () => {
-    axios.get('/user')
-    .then(response => {
-        console.log(response.data);
-    }).catch(err =>(console.error(err.message)));
+export const getAllOrderList = (data: any) => {
+    return new Promise<any>((resolve, reject) => {
+        axios.post('/orders/allOrderList', {
+            data
+        })
+        .then((response: any) => {
+            console.log(response);
+            resolve(response.data);
+        }).catch(err => {
+            console.log(err);
+            reject(err.response.data)
+        });
+    })
 };
+
+
+export const getRestaurantOrderList = (data: any) => {
+    return new Promise<any>((resolve, reject) => {
+        axios.post('/orders/restaurantOrderList', {
+            data
+        })
+        .then((response: any) => {
+            console.log(response);
+            resolve(response.data);
+        }).catch(err => {
+            console.log(err);
+            reject(err.response.data)
+        });
+    })
+};
+
+export const restaurantConfirmOrder = (data: any) => {
+    return new Promise<any>((resolve, reject) => {
+        axios.post('/orders/restaurantConfirmOrder', {
+            data
+        })
+        .then((response: any) => {
+            console.log(response);
+            resolve(response.data);
+        }).catch(err => {
+            console.log(err);
+            reject(err.response.data)
+        });
+    })
+};
+
+export const restaurantProcessedOrder = (data: any) => {
+    return new Promise<any>((resolve, reject) => {
+        axios.post('/orders/restaurantProcessedOrder', {
+            data
+        })
+        .then((response: any) => {
+            console.log(response);
+            resolve(response.data);
+        }).catch(err => {
+            console.log(err);
+            reject(err.response.data)
+        });
+    })
+};
+
+
+export const restaurantDeliveringOrder = (data: any) => {
+    return new Promise<any>((resolve, reject) => {
+        axios.post('/orders/restaurantDeliveringOrder', {
+            data
+        })
+        .then((response: any) => {
+            console.log(response);
+            resolve(response.data);
+        }).catch(err => {
+            console.log(err);
+            reject(err.response.data)
+        });
+    })
+};
+
+export const restaurantCompleteOrder = (data: any) => {
+    return new Promise<any>((resolve, reject) => {
+        axios.post('/orders/restaurantCompleteOrder', {
+            data
+        })
+        .then((response: any) => {
+            console.log(response);
+            resolve(response.data);
+        }).catch(err => {
+            console.log(err);
+            reject(err.response.data)
+        });
+    })
+};
+
+
+
+export const updateSettings = (data: any) => {
+    return new Promise<any>((resolve, reject) => {
+        axios.post('/users/updateSettings', {
+            data
+        })
+        .then((response: any) => {
+            console.log(response);
+            resolve(response.data);
+        }).catch(err => {
+            console.log(err);
+            reject(err.response.data)
+        });
+    })
+};
+
+export const updateRestaurantSettings = (data: any) => {
+    return new Promise<any>((resolve, reject) => {
+        axios.post('/users/updateRestaurantSettings', {
+            data
+        })
+        .then((response: any) => {
+            console.log(response);
+            resolve(response.data);
+        }).catch(err => {
+            console.log(err);
+            reject(err.response.data)
+        });
+    })
+};
+
+
+export const addDish = (data: any) => {
+    return new Promise<any>((resolve, reject) => {
+        axios.post('/users/addDish', {
+            data
+        })
+        .then((response: any) => {
+            console.log(response);
+            resolve(response.data);
+        }).catch(err => {
+            console.log(err);
+            reject(err.response.data)
+        });
+    })
+};
+
+export const editDish = (data: any) => {
+    return new Promise<any>((resolve, reject) => {
+        axios.post('/users/editDish', {
+            data
+        })
+        .then((response: any) => {
+            console.log(response);
+            resolve(response.data);
+        }).catch(err => {
+            console.log(err);
+            reject(err.response.data)
+        });
+    })
+};
+
