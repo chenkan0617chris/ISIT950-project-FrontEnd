@@ -12,7 +12,7 @@ import BackupIcon from '@mui/icons-material/Backup';
 import CheckIcon from '@mui/icons-material/Check';
 import DeliveryDiningIcon from '@mui/icons-material/DeliveryDining';
 import StorefrontIcon from '@mui/icons-material/Storefront';
-import { mySnackbar } from "./login.page";
+import { mySnackbar } from "./Login";
 
 const OrderDetail = () => {
 

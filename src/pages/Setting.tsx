@@ -3,7 +3,7 @@ import loginBg from '../images/login_new.png';
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { getCustomer, updateRestaurantSettings, updateSettings } from "../service/api";
-import { mySnackbar } from "./login.page";
+import { mySnackbar } from "./Login";
 import moment from "moment";
 
 interface Inputs {

@@ -7,7 +7,7 @@ import { cancelOrder, getAllOrderList, getOrderList, getRestaurantOrderList, res
 import { isEmpty } from "lodash";
 import NoResult from "../component/noResult.component";
 import CheckIcon from '@mui/icons-material/Check';
-import { mySnackbar } from "./login.page";
+import { mySnackbar } from "./Login";
 import { DELIVERY_TIME } from "../utils/constant";
 
 const OrderList = () => {

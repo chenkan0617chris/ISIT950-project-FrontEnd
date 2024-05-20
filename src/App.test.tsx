@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import App from './App';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom/extend-expect';
-import Home from './pages/home.page';
+import Home from './pages/Home';
 import Title from './component/title.component';
 
 test('renders learn react link', () => {

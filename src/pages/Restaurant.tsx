@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import AddIcon from '@mui/icons-material/Add';
 import { useSearchParams } from "react-router-dom";
 import { getMenus, getRestaurant } from "../service/api";
-import { mySnackbar } from "./login.page";
+import { mySnackbar } from "./Login";
 import EditIcon from '@mui/icons-material/Edit';
 import NoResult from "../component/noResult.component";
 import { isEmpty } from "lodash";

@@ -1,7 +1,7 @@
 import { Alert, Box, Button, Container, FormControl, FormControlLabel, FormLabel, InputLabel, OutlinedInput, Radio, RadioGroup, Skeleton, Snackbar, Stack, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { mySnackbar } from "./login.page";
+import { mySnackbar } from "./Login";
 import loginBg from '../images/login_new.png';
 import { addDish, editDish } from "../service/api";
 import { useSearchParams } from "react-router-dom";

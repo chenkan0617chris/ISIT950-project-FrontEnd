@@ -1,15 +1,15 @@
 import { createBrowserRouter } from "react-router-dom";
-import Home from "./pages/home.page";
-import ErrorPage from "./pages/error.page";
-import { Login } from "./pages/login.page";
-import SearchResult from "./pages/searchResult.page";
-import RestaurantPage from "./pages/restaurant.page";
-import CartPage from "./pages/cart.page";
-import Register from "./pages/register.page";
-import OrderList from './pages/orderList.page';
-import Setting from "./pages/setting.page";
-import AddDish from "./pages/addDish.page";
-import OrderDetail from "./pages/orderDetail.page";
+import Home from "./pages/Home";
+import ErrorPage from "./pages/Error";
+import { Login } from "./pages/Login";
+import SearchResult from "./pages/SearchResult";
+import RestaurantPage from "./pages/Restaurant";
+import CartPage from "./pages/Cart";
+import Register from "./pages/Register";
+import OrderList from './pages/OrderList';
+import Setting from "./pages/Setting";
+import AddDish from "./pages/AddDish";
+import OrderDetail from "./pages/OrderDetail";
 
 const router = createBrowserRouter([
     {

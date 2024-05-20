@@ -5,7 +5,7 @@ import { searchInputs } from "../component/searchForm.component";
 import { useEffect, useState } from "react";
 import isEmpty from "lodash/isEmpty";
 import { getCustomer, membership, order } from "../service/api";
-import { mySnackbar } from "./login.page";
+import { mySnackbar } from "./Login";
 import moment from "moment";
 
 const CartPage = () => {
