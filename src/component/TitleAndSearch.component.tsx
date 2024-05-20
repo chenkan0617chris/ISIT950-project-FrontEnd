@@ -2,8 +2,6 @@ import { Stack } from "@mui/material";
 import SearchForm, { searchInputs } from "./searchForm.component";
 import Subtitle from "./subtitle.component";
 import Title from "./title.component";
-import { search } from "../service/api";
-import { useSearchParams } from "react-router-dom";
 
 interface TitleAndSearchProps {
     onSubmit: (value: searchInputs) => void;

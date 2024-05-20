@@ -1,11 +1,11 @@
-import { Alert, Box, Button, Container, Divider, FormControl, FormControlLabel, FormLabel, Paper, Radio, RadioGroup, Snackbar, Stack, Typography } from "@mui/material";
+import { Alert, Box, Button, Divider, FormControl, FormControlLabel, Radio, RadioGroup, Snackbar, Stack, Typography } from "@mui/material";
 import TitleAndSearch from "../component/TitleAndSearch.component";
 import { ANNUAlLY_MEMBERSHIP_FEE, DELIVERY_FEE, MONTHLY_MEMBERSHIP_FEE, ORANGE, WHITE } from "../utils/constant";
 import { searchInputs } from "../component/searchForm.component";
 import { useEffect, useState } from "react";
 import isEmpty from "lodash/isEmpty";
 import { getCustomer, membership, order } from "../service/api";
-import { mySnackbar } from "./login.page";
+import { mySnackbar } from "./Login";
 import moment from "moment";
 
 const CartPage = () => {
@@ -141,10 +141,9 @@ const CartPage = () => {
 
     const renderCart = () => {
         if(!isEmpty(cart)) {
-            console.log(cart);
-            return Object.values(cart).map((item: any) => {
+            return Object.values(cart).map((item: any, key: number) => {
                 return (
-                    <Stack spacing={4} mt={2}>
+                    <Stack spacing={4} mt={2} key={key}>
                         <Stack spacing={2}>
                             <Typography variant="body1">From<Typography component='span' color={ORANGE}> {item.title}</Typography></Typography>
                         </Stack>

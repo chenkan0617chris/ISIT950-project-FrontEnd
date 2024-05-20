@@ -1,17 +1,14 @@
 import { ReactElement, useState } from "react";
 import LoginForm from "../component/login.component";
-import { Alert, Box, Container, Snackbar } from "@mui/material";
+import { Alert, Box, Snackbar } from "@mui/material";
 import loginBg from '../images/login_new.png';
-import { login } from "../service/api";
-import { SubmitHandler } from "react-hook-form";
-import RegisterForm from "../component/register.component";
 
 export interface mySnackbar {
     severity: any,
     message: string
 }
 
-export default function Register(): ReactElement {
+export function Login(): ReactElement {
 
     const [open, setOpen] = useState(false);
 
@@ -47,7 +44,7 @@ export default function Register(): ReactElement {
                     {snack.message}
                 </Alert>
             </Snackbar>
-            <RegisterForm 
+            <LoginForm 
                 setOpen={setOpen}
                 setSnack={setSnack}
             />

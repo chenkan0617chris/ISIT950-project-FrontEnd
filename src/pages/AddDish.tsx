@@ -1,7 +1,7 @@
-import { Alert, Box, Button, Container, FormControl, FormControlLabel, FormLabel, InputLabel, MenuItem, OutlinedInput, Radio, RadioGroup, Select, Skeleton, Snackbar, Stack, Typography } from "@mui/material";
+import { Alert, Box, Button, Container, FormControl, FormControlLabel, FormLabel, InputLabel, OutlinedInput, Radio, RadioGroup, Skeleton, Snackbar, Stack, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { mySnackbar } from "./login.page";
+import { mySnackbar } from "./Login";
 import loginBg from '../images/login_new.png';
 import { addDish, editDish } from "../service/api";
 import { useSearchParams } from "react-router-dom";
@@ -20,7 +20,7 @@ const AddDish = () => {
 
     const { register, handleSubmit } = useForm<Inputs>();
 
-    const [searchParams, setSearchParams] = useSearchParams('mid');
+    const [searchParams] = useSearchParams('mid');
 
     const [open, setOpen] = useState(false);
 
@@ -49,7 +49,7 @@ const AddDish = () => {
 
             setForm(data);
         }
-    }, []);
+    }, [searchParams]);
 
 
     const onSubmit = (data: any) => {
@@ -96,7 +96,6 @@ const AddDish = () => {
     }
 
     const renderForm = () => {
-        console.log(form?.name);
         if(isEdit) {
             if(form?.name) {
                 return <Box component='form' onSubmit={handleSubmit(onSubmit)}>
