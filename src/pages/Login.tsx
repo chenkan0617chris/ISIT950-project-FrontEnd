@@ -1,9 +1,7 @@
 import { ReactElement, useState } from "react";
 import LoginForm from "../component/login.component";
-import { Alert, Box, Container, Snackbar } from "@mui/material";
+import { Alert, Box, Snackbar } from "@mui/material";
 import loginBg from '../images/login_new.png';
-import { login } from "../service/login";
-import { SubmitHandler } from "react-hook-form";
 
 export interface mySnackbar {
     severity: any,
@@ -29,7 +27,7 @@ export function Login(): ReactElement {
             backgroundPosition: '50%',
             backgroundSize: 'cover',
             opacity: 0.8,
-            height: '100%', 
+            height: '100vh', 
             width: '100%', 
             display: 'flex', 
             alignItems: 'center', 
