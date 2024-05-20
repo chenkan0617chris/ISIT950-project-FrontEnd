@@ -157,7 +157,7 @@ const Setting = () => {
                     disabled
                 />
             </FormControl>
-            {userInfo?.membership && <FormControl sx={{ m: 1 }} variant="outlined">
+            {userInfo?.membership !== 0 && <FormControl sx={{ m: 1 }} variant="outlined">
                 <InputLabel htmlFor="outlined-adornment-Membership">Membership</InputLabel>
                 <OutlinedInput
                     required
