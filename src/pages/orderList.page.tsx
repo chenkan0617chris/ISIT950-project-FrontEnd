@@ -32,7 +32,6 @@ const OrderList = () => {
     }
 
     const handleChange = (e: any, value: string) => {
-        console.log(value);
         setTab(value);
     };
 
@@ -91,7 +90,7 @@ const OrderList = () => {
             }
         }
 
-    }, [userInfo, tab]);
+    }, [userInfo, tab, isCustomer, isRestaurant]);
 
     const confirm = (oid: number) => {
         let data = {
@@ -114,7 +113,6 @@ const OrderList = () => {
     }
 
     const cancel = (item: any) => {
-        console.log(item);
         let data = {
             oid: item.oid,
             total_price: item.total_price,
@@ -257,7 +255,6 @@ const OrderList = () => {
         return <NoResult/>
     };
 
-    console.log(tab)
 
     return (
         <Box sx={{ width: '100%',  background: `url(${search_bg})`, backgroundSize: 'cover'}}>

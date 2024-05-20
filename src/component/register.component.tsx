@@ -4,9 +4,8 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import { SubmitHandler, useForm } from "react-hook-form";
-import { login, registerApi } from "../service/api";
+import { registerApi } from "../service/api";
 import { mySnackbar } from "../pages/login.page";
-import { Password } from "@mui/icons-material";
 
 var md5 = require('md5');
 

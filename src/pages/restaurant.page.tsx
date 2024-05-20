@@ -1,4 +1,4 @@
-import { Alert, Box, Button, Card, CardContent, CardMedia, Container, Divider, Snackbar, Stack, Typography } from "@mui/material";
+import { Alert, Box, Button, Card, CardContent, CardMedia, Container, Snackbar, Stack, Typography } from "@mui/material";
 import search_bg from '../images/search_bg.jpeg';
 import { WHITE } from "../utils/constant";
 import { searchInputs } from "../component/searchForm.component";
@@ -18,7 +18,7 @@ export interface menuInterface {
 
 const RestaurantPage = () => {
 
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams] = useSearchParams();
 
     const [userInfo, setUserInfo] = useState<any>();
 
@@ -82,7 +82,6 @@ const RestaurantPage = () => {
 
     const edit = (menu: any) => {
         window.location.href = `/addDish?mid=${menu.mid}&name=${menu.name}&description=${menu.description}&price=${menu.price}`
-        console.log(menu);
     };
 
     const [open, setOpen] = useState(false);
@@ -109,7 +108,7 @@ const RestaurantPage = () => {
             });
         }
 
-    }, []);
+    }, [searchParams]);
 
     const img_url = restaurant?.image || '/images/res_default.png';
 

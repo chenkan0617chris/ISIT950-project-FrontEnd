@@ -1,8 +1,5 @@
 import { Alert, Box, Button, Container, Rating, Skeleton, Snackbar, Stack, Step, StepLabel, Stepper, Typography, styled } from "@mui/material";
 import * as React from 'react';
-import SettingsIcon from '@mui/icons-material/Settings';
-import GroupAddIcon from '@mui/icons-material/GroupAdd';
-import VideoLabelIcon from '@mui/icons-material/VideoLabel';
 import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector';
 import { StepIconProps } from '@mui/material/StepIcon';
 import TitleAndSearch from "../component/TitleAndSearch.component";
@@ -24,7 +21,7 @@ const OrderDetail = () => {
 
     const [order, setOrder] = useState<any>();
 
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams] = useSearchParams();
 
     const [value, setValue] = useState<any>(0);
 
@@ -47,11 +44,15 @@ const OrderDetail = () => {
         orderDetail({oid}).then((res: any) => {
           setOrder(res);
         }).catch((err) => {
-          console.log(err);
+          setSnack({
+            severity: 'error',
+            message: err.message,
+          });
+          setOpen(true);
         });
       }
       
-    }, []);
+    }, [searchParams]);
 
     const ratingOrder = () => {
       rating({
@@ -163,7 +164,7 @@ const OrderDetail = () => {
           'Total Price': order.total_price,
           'Delivery Person Name': order.delivery_name,
           'Delivery Person Phone': order.delivery_phone,
-          'Estimate Time': order.estimate_time,
+          'Estimate Time': `${order.estimate_time} min` ,
           'Finish Time': order.finish_time ? new Date(order.finish_time).toLocaleString('en-AU', { timeZone: 'Australia/Sydney'}) : undefined,
           'items': order.items
         }
@@ -180,7 +181,6 @@ const OrderDetail = () => {
               <table style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <tbody>
                 {Object.entries(list).map((row:any, key: number) => {
-                  if(!row[1]) return;
                   if(row[0] === 'items'){
                     return <tr key={key}>
                       <td>{row[0]}</td>

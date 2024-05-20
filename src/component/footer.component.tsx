@@ -1,4 +1,4 @@
-import { Box, Container, Link, Stack, Typography } from "@mui/material";
+import { Box, Link, Stack, Typography } from "@mui/material";
 import Title from "./title.component";
 import BeMember from "./beMember.component";
 import { RED, WHITE } from "../utils/constant";

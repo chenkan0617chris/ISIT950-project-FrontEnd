@@ -1,8 +1,5 @@
 import { Box, Button, FormControl, OutlinedInput, Stack } from "@mui/material";
 import { useForm } from "react-hook-form";
-import { useSearchParams } from "react-router-dom";
-import { Restaurant } from "./restaurantCard.component";
-import { search } from "../service/api";
 
 export interface searchInputs {
     distance?: number;

@@ -1,7 +1,5 @@
 import { Box, Container, Grid, Stack, Typography } from "@mui/material";
-import Title from "../component/title.component";
-import Subtitle from "../component/subtitle.component";
-import SearchForm, { searchInputs } from "../component/searchForm.component";
+import { searchInputs } from "../component/searchForm.component";
 import RestaurantCard, { Restaurant } from "../component/restaurantCard.component";
 import { WHITE } from "../utils/constant";
 import search_bg from '../images/search_bg.jpeg';
@@ -14,7 +12,7 @@ import NoResult from "../component/noResult.component";
 
 const SearchResult = () => {
 
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams] = useSearchParams();
 
     const [results, setResults] = useState<Restaurant[]>();
 
@@ -30,7 +28,6 @@ const SearchResult = () => {
     };
 
     const onSubmit = (value: searchInputs) => {
-        console.log(value);
         const userInfo: any = JSON.parse(sessionStorage.getItem("userInfo") as any);
 
         if (!userInfo) return;
@@ -61,10 +58,9 @@ const SearchResult = () => {
         }
 
         onSubmit(form);
-    }, []);
+    }, [distance, name]);
 
     const renderResult = () => {
-        console.log(results);
         if(!isEmpty(results)) {
             return results?.map((restaurant: Restaurant, index) => {
                 return (

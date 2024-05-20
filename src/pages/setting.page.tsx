@@ -2,7 +2,7 @@ import { Alert, Box, Button, Container, FormControl, InputLabel, OutlinedInput, 
 import loginBg from '../images/login_new.png';
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { getCustomer, membership, updateRestaurantSettings, updateSettings } from "../service/api";
+import { getCustomer, updateRestaurantSettings, updateSettings } from "../service/api";
 import { mySnackbar } from "./login.page";
 import moment from "moment";
 
@@ -54,7 +54,6 @@ const Setting = () => {
                 rid: userInfo.rid 
             }
         }
-        console.log(data);
 
         const func = userInfo.cid ?  updateSettings : updateRestaurantSettings;
 
@@ -62,7 +61,6 @@ const Setting = () => {
         func(newDate).then((res: any) => {
             sessionStorage.setItem("userInfo", JSON.stringify(res));
             setUserInfo(res);
-            console.log(res);
             setSnack({
                 severity: 'success',
                 message: 'updated successfully!',
