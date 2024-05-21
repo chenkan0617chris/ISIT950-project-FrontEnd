@@ -168,7 +168,7 @@ const RestaurantPage = () => {
                                     <Stack direction='row' alignItems='center' justifyContent='center'>
                                         {restaurant?.category && <Typography variant="h6">{restaurant?.category}</Typography>}
                                         <Box ml={4} display='flex' justifyContent='center' alignItems='center'>
-                                            <Typography variant="h6">{restaurant?.rating.toFixed(1)}</Typography>
+                                            <Typography variant="h6">{restaurant?.rating?.toFixed(1) || 0}</Typography>
                                             <StarIcon></StarIcon>
                                         </Box>
                                     </Stack>
