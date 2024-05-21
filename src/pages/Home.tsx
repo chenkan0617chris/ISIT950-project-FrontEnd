@@ -16,7 +16,7 @@ const Home = () => {
     }, []);
 
     const onSubmit = (value: any) => {
-
+        console.log(value);
         const userInfo: any = JSON.parse(sessionStorage.getItem("userInfo") as any);
 
         if (!userInfo) {
@@ -24,7 +24,7 @@ const Home = () => {
             return;
         };
 
-        window.location.href = `/search?name=${value.name}&distance=${value.distance}`;
+        window.location.href = `/search?name=${value.name}&distance=${value.distance}&category=${value.category}&rating=${value.rating}`;
     };
 
     return (

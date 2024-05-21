@@ -1,10 +1,11 @@
-import { Alert, Box, Button, Container, FormControl, InputLabel, OutlinedInput, Snackbar, Stack, Typography } from "@mui/material";
+import { Alert, Box, Button, Container, FormControl, InputLabel, MenuItem, OutlinedInput, Select, Snackbar, Stack, Typography } from "@mui/material";
 import loginBg from '../images/login_new.png';
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { getCustomer, updateRestaurantSettings, updateSettings } from "../service/api";
 import { mySnackbar } from "./Login";
 import moment from "moment";
+import { RESTAURANT_CATEGORY } from "../utils/constant";
 
 interface Inputs {
     name?: string;
@@ -14,6 +15,7 @@ interface Inputs {
     postcode?: number;
     description?: string;
     title?: string;
+    category?: string;
 }
 
 const Setting = () => {
@@ -243,6 +245,20 @@ const Setting = () => {
                     defaultValue={userInfo?.postcode}
                     {...register('postcode')}
                 />
+            </FormControl>
+            <FormControl>
+                <InputLabel id="demo-simple-select-label">Category</InputLabel>
+                <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    label="Category"
+                    defaultValue={userInfo?.category}
+                    {...register('category')}
+                >   
+                    {RESTAURANT_CATEGORY.map((value, index) => {
+                        return <MenuItem key={index} value={value}>{value}</MenuItem>
+                    })}
+                </Select>
             </FormControl>
             <Button type='submit' variant="contained">Update</Button>
         </Stack>

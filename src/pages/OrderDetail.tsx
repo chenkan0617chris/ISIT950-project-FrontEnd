@@ -57,7 +57,8 @@ const OrderDetail = () => {
     const ratingOrder = () => {
       rating({
         oid: order.oid,
-        rate: value
+        rid: order.restaurant_id,
+        rating: value
       }).then((res) => {
         setSnack({
           severity: 'success',
@@ -208,12 +209,12 @@ const OrderDetail = () => {
 
     const renderRating = () => {
       if(!order || order.status !== 'completed') return <></>;
-      if(order.rate) {
+      if(order.rating) {
         return <Stack spacing={2} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <Typography variant="h5">Rate of this order</Typography>
         <Rating
           name="read-only"
-          value={order.rate}
+          value={order.rating}
           readOnly
         />
       </Stack>

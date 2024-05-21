@@ -20,6 +20,10 @@ const SearchResult = () => {
 
     const distance = searchParams.get("distance");
 
+    const category = searchParams.get("category") as any;
+
+    const rating = searchParams.get("rating") as any;
+
     const [searchTerm, setSearchTerm] = useState('All');
 
 
@@ -35,6 +39,8 @@ const SearchResult = () => {
         search({
             name: value.name,
             distance: Number(value.distance),
+            category: value.category,
+            rating: value.rating,
             postcode: userInfo.postcode
         }).then((res) => {
             if(value.name) {
@@ -57,8 +63,14 @@ const SearchResult = () => {
             form['distance'] = Number(distance);
         }
 
+        form = {
+            ...form,
+            category,
+            rating
+        }
+
         onSubmit(form);
-    }, [distance, name]);
+    }, [category, distance, name, rating]);
 
     const renderResult = () => {
         if(!isEmpty(results)) {

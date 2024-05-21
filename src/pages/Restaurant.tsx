@@ -11,6 +11,8 @@ import { mySnackbar } from "./Login";
 import EditIcon from '@mui/icons-material/Edit';
 import NoResult from "../component/noResult.component";
 import { isEmpty } from "lodash";
+import StarIcon from '@mui/icons-material/Star';
+
 
 export interface menuInterface {
     
@@ -159,10 +161,19 @@ const RestaurantPage = () => {
                 <Stack spacing={4} p={6}>
                     <Card sx={{ padding: '25px', display: 'flex', alignItems: 'center', background: '#202020', opacity: 0.8, borderRadius: 2}}>
                         <CardMedia image={img_url} sx={{ height: 130, width: 270, mr: 4}} />
-                        <CardContent sx={{ color: WHITE }}>
+                        <CardContent sx={{ color: WHITE, minWidth: 500 }}>
                             <Stack spacing={2}>
-                                <Typography  variant="h6">{restaurant?.title}</Typography>
-                                <Typography variant="subtitle1">{restaurant?.description}</Typography>
+                                <Stack direction='row' justifyContent='space-between'>
+                                    <Typography variant="h6">{restaurant?.title}</Typography>
+                                    <Stack direction='row' alignItems='center' justifyContent='center'>
+                                        {restaurant?.category && <Typography variant="h6">{restaurant?.category}</Typography>}
+                                        <Box ml={4} display='flex' justifyContent='center' alignItems='center'>
+                                            <Typography variant="h6">{restaurant?.rating.toFixed(1)}</Typography>
+                                            <StarIcon></StarIcon>
+                                        </Box>
+                                    </Stack>
+                                </Stack>
+                                <Typography  variant="body1" sx={{ height: '50px', overflow: "hidden" }}>{restaurant?.description}</Typography>
                             </Stack>
                             <Stack direction={'row'} justifyContent={'space-between'}>
                                 <Typography>${restaurant?.avgPrice || 20}</Typography>
