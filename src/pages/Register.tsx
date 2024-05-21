@@ -27,7 +27,6 @@ export default function Register(): ReactElement {
             backgroundPosition: '50%',
             backgroundSize: 'cover',
             opacity: 0.8,
-            height: '100vh', 
             width: '100%', 
             display: 'flex', 
             alignItems: 'center', 

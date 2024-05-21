@@ -164,7 +164,7 @@ const OrderDetail = () => {
           'Total Price': order.total_price,
           'Delivery Person Name': order.delivery_name,
           'Delivery Person Phone': order.delivery_phone,
-          'Estimate Time': `${order.estimate_time} min` ,
+          'Estimate Time': order.estimate_time ? `${order.estimate_time} min` : '',
           'Finish Time': order.finish_time ? new Date(order.finish_time).toLocaleString('en-AU', { timeZone: 'Australia/Sydney'}) : undefined,
           'items': order.items
         }

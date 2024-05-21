@@ -26,7 +26,7 @@ const RestaurantCard = (props: RestaurantCardProps) => {
     const img_url = image || '/images/res_default.png';
 
     return (
-        <Card sx={{ width: '100%', padding: '25px', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+        <Card sx={{ padding: '25px', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
             <Box display='flex' alignItems='center'>
                 <CardMedia image={img_url} sx={{ height: '128px', width: '128px' }}>
                 </CardMedia>

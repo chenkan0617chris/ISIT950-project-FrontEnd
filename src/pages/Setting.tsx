@@ -269,13 +269,12 @@ const Setting = () => {
         backgroundPosition: '50%',
         backgroundSize: 'cover',
         opacity: 0.8,
-        height: '100vh', 
         width: '100%', 
         display: 'flex', 
         alignItems: 'center', 
         justifyContent: 'center'
     }}>
-        <Container sx={{ background: 'white', p: 8, pt: 4, pb: 4, borderRadius: '8px' }}>
+        <Container sx={{ background: 'white', p: 8, pt: 4, pb: 4, borderRadius: '8px', mt: 4, mb: 4 }}>
             <Typography variant="h3" mb={4} sx={{ textTransform: 'capitalize' }}>{userInfo?.type} Settings</Typography>
             {renderForm()}
             <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>

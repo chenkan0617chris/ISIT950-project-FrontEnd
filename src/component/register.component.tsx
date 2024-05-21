@@ -74,7 +74,7 @@ export default function RegisterForm(props: RegisterFormProps): ReactElement {
     };
 
     return (
-    <Stack spacing={4} sx={{ borderRadius: '30px', background: 'rgba(0, 0, 0, 0.30)', backdropFilter: 'blur(25px)', padding: '80px' }}>
+    <Stack spacing={4} sx={{ margin: '24px 0', borderRadius: '30px', background: 'rgba(0, 0, 0, 0.30)', backdropFilter: 'blur(25px)', padding: '80px' }}>
         <Stack spacing={1}>
             <Typography variant="h4" textAlign='center'>Register</Typography>
             <Box component='form' onSubmit={handleSubmit(onSubmit)}>
