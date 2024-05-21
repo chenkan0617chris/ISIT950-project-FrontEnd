@@ -121,7 +121,7 @@ export default function RegisterForm(props: RegisterFormProps): ReactElement {
                             {...register('title')}
                         />
                     </FormControl>}
-                    <FormControl sx={{ m: 1 }} variant="outlined">
+                    {type !== "restaurants" && <FormControl sx={{ m: 1 }} variant="outlined">
                         <InputLabel htmlFor="outlined-adornment-Name">Name</InputLabel>
                         <OutlinedInput
                             required
@@ -130,7 +130,7 @@ export default function RegisterForm(props: RegisterFormProps): ReactElement {
                             label="Name"
                             {...register('name')}
                         />
-                    </FormControl>
+                    </FormControl>}
                     <FormControl sx={{ m: 1 }} variant="outlined">
                         <InputLabel htmlFor="outlined-adornment-Phone">Phone</InputLabel>
                         <OutlinedInput
