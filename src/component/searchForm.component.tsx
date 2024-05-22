@@ -38,12 +38,10 @@ const SearchForm = (props: SearchFormProps) => {
                         />
                     </FormControl>
                     <FormControl>
-                        <InputLabel id="demo-simple-select-label">Category</InputLabel>
                         <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
                             defaultValue='all'
-                            label="Category"
                             sx={{ 
                                 background: '#9A1616',
                                 width: '120px',
@@ -73,12 +71,9 @@ const SearchForm = (props: SearchFormProps) => {
                         />
                     </FormControl>
                     <FormControl>
-                        <InputLabel id="demo-simple-select-label">Rating</InputLabel>
                         <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
-                            // value={category}
-                            label="Rating"
                             defaultValue={0}
                             sx={{ 
                                 background: '#9A1616',
