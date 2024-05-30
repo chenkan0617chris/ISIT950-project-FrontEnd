@@ -1,11 +1,8 @@
-import { render, screen, fireEvent, waitFor} from '@testing-library/react';
+import { render, screen, fireEvent} from '@testing-library/react';
 import App from './App';
-import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom/extend-expect';
-import { RED, WHITE } from "./utils/constant";
 import React from 'react';
 //Home page
-import Home from './pages/Home';
 import Title from './component/title.component';
 import Subtitle from './component/subtitle.component';
 import BeMember from './component/beMember.component';
@@ -14,9 +11,7 @@ import MyAppBar from './component/appBar.component';
 import Footer from './component/footer.component';
 
 //Login page
-import { act } from 'react-dom/test-utils';
 import LoginForm from './component/login.component';
-import { login } from './service/api'; 
 import RestaurantCard, { Restaurant } from './component/restaurantCard.component';
 
 test('renders learn react link', () => {
@@ -129,6 +124,7 @@ describe('LoginForm', () => {
   const mockSetSnack = jest.fn();
 
   beforeEach(() => {
+    // eslint-disable-next-line testing-library/no-render-in-setup
     render(<LoginForm setOpen={mockSetOpen} setSnack={mockSetSnack} />);
   });
 
@@ -176,6 +172,7 @@ describe('RestaurantCard component', () => {
     
     if (mockRestaurant.description) {
       const descriptionElement = screen.getByText(mockRestaurant.description);
+      // eslint-disable-next-line jest/no-conditional-expect
       expect(descriptionElement).toBeInTheDocument();
     }
 
