@@ -1,4 +1,4 @@
-import { Box, Button, FormControl, InputLabel, MenuItem, OutlinedInput, Select, Stack } from "@mui/material";
+import { Box, Button, FormControl, MenuItem, OutlinedInput, Select, Stack } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { ALL_RESTAURANT_CATEGORY, RESTAURANT_RATING } from "../utils/constant";
 
